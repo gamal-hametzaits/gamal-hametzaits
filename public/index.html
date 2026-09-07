@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הגמל המצייץ - ספורט בלי פילטר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#101828; --navy2:#1d2939; --camel:#d97706; --camel-l:#fbbf24;
+  --red:#dc2626; --bg:#f6f7f9; --card:#ffffff; --ink:#1a1a1a; --mut:#667085; --line:#e4e7ec;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+/* header */
+header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.hd{display:flex;align-items:center;gap:14px;padding:14px 18px;max-width:1120px;margin:0 auto;flex-wrap:wrap}
+.logo{font-size:34px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.wordmark{font-weight:900;font-size:26px;letter-spacing:-.5px}
+.tagline{font-size:12px;color:var(--camel-l);font-weight:500;margin-top:-6px}
+nav{display:flex;gap:4px;margin-inline-start:auto;flex-wrap:wrap}
+nav a{padding:7px 13px;border-radius:8px;font-weight:500;font-size:15px;color:#d0d5dd;transition:.15s}
+nav a:hover,nav a.on{background:var(--navy2);color:#fff}
+nav a.admin-link{color:var(--camel-l)}
+/* ticker */
+.ticker-bar{background:var(--red);color:#fff;display:flex;align-items:stretch;overflow:hidden}
+.ticker-label{background:#991b1b;font-weight:900;padding:7px 16px;display:flex;align-items:center;gap:6px;white-space:nowrap;font-size:14px;z-index:2}
+.ticker-view{overflow:hidden;flex:1;display:flex;align-items:center}
+.ticker-track{display:flex;gap:56px;white-space:nowrap;will-change:transform;padding-inline-start:20px}
+.ticker-track span{font-size:14px;font-weight:500}
+.ticker-track span::before{content:'●';color:#fecaca;margin-inline-end:10px;font-size:10px}
+/* hero */
+.hero{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;margin:26px 0}
+.hero-main{background:linear-gradient(135deg,#1d2939,#344054);color:#fff;border-radius:16px;padding:34px;position:relative;overflow:hidden;cursor:pointer;min-height:280px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-main::after{content:'🐪';position:absolute;top:-20px;left:-10px;font-size:150px;opacity:.08;transform:rotate(-12deg)}
+.hero-main h1{font-size:30px;font-weight:900;line-height:1.25;margin:10px 0}
+.hero-main p{color:#cbd5e1;font-size:16px}
+.chip{display:inline-block;background:var(--camel);color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:99px;width:fit-content}
+.chip.red{background:var(--red)} .chip.blog{background:#0e7490}
+.meta{font-size:13px;color:var(--mut)}
+.hero-main .meta{color:#94a3b8}
+.hero-side{display:flex;flex-direction:column;gap:14px}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin:20px 0 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;transition:.18s;display:flex;flex-direction:column;gap:10px}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(16,24,40,.1)}
+.card h3{font-size:19px;font-weight:800;line-height:1.35}
+.card p{color:var(--mut);font-size:14.5px;flex:1}
+.card-foot{display:flex;justify-content:space-between;align-items:center}
+.sec-head{display:flex;align-items:center;gap:12px;margin:34px 0 16px}
+.sec-head h2{font-size:23px;font-weight:900}
+.sec-head .bar{height:5px;width:44px;background:var(--camel);border-radius:3px}
+/* article page */
+.art{max-width:760px;margin:30px auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:38px}
+.art h1{font-size:31px;font-weight:900;line-height:1.3;margin:12px 0}
+.art .lead{font-size:18px;color:#475467;font-weight:500;border-inline-start:4px solid var(--camel);padding-inline-start:14px;margin:16px 0 24px}
+.art .body p{margin:14px 0;font-size:16.5px}
+.back{display:inline-block;margin:22px 0 0;color:var(--camel);font-weight:700;cursor:pointer}
+.crumb{font-size:13px;color:var(--mut);margin:20px 0 0}
+.crumb a{color:var(--camel);font-weight:600}
+/* admin */
+.admin{max-width:900px;margin:30px auto}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;margin-bottom:22px}
+.panel h2{font-size:20px;font-weight:900;margin-bottom:14px}
+.tabs{display:flex;gap:8px;margin-bottom:20px}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 18px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+label{display:block;font-weight:700;font-size:14px;margin:12px 0 5px}
+input[type=text],input[type=password],select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-family:inherit;font-size:15px;background:#fff}
+textarea{min-height:160px;resize:vertical}
+.btn{background:var(--camel);color:#fff;border:0;border-radius:9px;padding:11px 24px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;margin-top:16px}
+.btn:hover{background:#b45309}
+.btn.gray{background:#475467} .btn.danger{background:var(--red);padding:6px 14px;margin:0;font-size:13px}
+.btn.mini{padding:6px 14px;margin:0;font-size:13px;background:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:700;font-size:13px}
+.row-actions{display:flex;gap:6px}
+.notice{padding:12px 16px;border-radius:9px;margin:12px 0;font-weight:600;font-size:14px}
+.notice.ok{background:#ecfdf3;color:#027a48}.notice.err{background:#fef3f2;color:#b42318}
+.tick-add{display:flex;gap:8px;margin-top:8px}
+.tick-add input{flex:1}
+/* footer */
+footer{background:var(--navy);color:#98a2b3;margin-top:60px;padding:34px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer b{color:#fff;font-size:17px}
+.loading{text-align:center;padding:80px 0;color:var(--mut);font-size:18px}
+.err-box{text-align:center;padding:60px 20px;color:var(--red);font-weight:600}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.art{padding:24px}.art h1{font-size:25px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd">
+    <span class="logo">🐪</span>
+    <div>
+      <a href="#/" class="wordmark">הגמל המצייץ</a>
+      <div class="tagline">ספורט בלי פילטר</div>
+    </div>
+    <nav id="nav"></nav>
+  </div>
+  <div class="ticker-bar">
+    <div class="ticker-label">⚡ מבזקים</div>
+    <div class="ticker-view"><div class="ticker-track" id="tickerTrack"><span>טוען מבזקים...</span></div></div>
+  </div>
+</header>
+<main class="wrap" id="app"><div class="loading">טוען...</div></main>
+<footer>
+  <div class="wrap">
+    <div><b>🐪 הגמל המצייץ</b><br>חדשות ספורט, בלוגים ומבזקים - בלי פילטר, בלי סיבובים.</div>
+    <div>האתר הוקם כהדגמה חיה: עורכים מפרסמים, קוראים צופים, המבזקים רצים לבד.</div>
+  </div>
+</footer>
+<script>
+/* ================== STORE ================== */
+const STORE = {
+  base: "https://keyvalue.immanuel.co/api/KeyVal/",
+  app: "gamal-hametzaits-77x9",
+  enc(s) { return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); },
+  dec(s) { s = String(s || "").replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; if (!s) return ""; return new TextDecoder().decode(Uint8Array.from(atob(s), (c) => c.charCodeAt(0))); },
+  async setKey(k, raw) { const r = await fetch(this.base + "UpdateValue/" + this.app + "/" + k + "/" + this.enc(raw), { method: "POST" }); if (!r.ok) throw new Error("set " + r.status); const t = await r.text(); if (t.trim() !== "true") throw new Error("set rejected"); },
+  async getKey(k) { const r = await fetch(this.base + "GetValue/" + this.app + "/" + k); if (!r.ok) throw new Error("get " + r.status); const t = await r.json(); return this.dec(t); },
+  async regIds(col) { const s = await this.getKey("reg_" + col); return s ? s.split(",").filter(Boolean) : []; },
+  async setReg(col, ids) { await this.setKey("reg_" + col, ids.join(",")); },
+  prefix(col) { return { articles: "a", blogs: "b", ticker: "t" }[col]; },
+  async read(col) {
+    const ids = await this.regIds(col);
+    const p = this.prefix(col);
+    const out = await Promise.all(ids.map(async (id) => {
+      try {
+        const m = JSON.parse(await this.getKey("m_" + id));
+        const hParts = await Promise.all(Array.from({ length: m.nh }, (_, i) => this.getKey("h_" + id + "_" + i)));
+        const h = JSON.parse(hParts.join(""));
+        return { title: h.t || "", category: h.c || "", author: h.a || "", summary: h.s || "", text: h.s || "", featured: !!m.f, ts: m.ts, nc: m.nc, _id: id };
+      } catch (e) { return null; }
+    }));
+    return out.filter(Boolean);
+  },
+  async readBody(meta) {
+    if (!meta.nc) return "";
+    const parts = await Promise.all(Array.from({ length: meta.nc }, (_, i) => this.getKey("c_" + meta._id + "_" + i).catch(() => "")));
+    return parts.join("");
+  },
+  async writeItem(col, id, obj) {
+    const body = obj.body || ""; delete obj.body;
+    const chunks = []; for (let i = 0; i < body.length; i += 70) chunks.push(body.slice(i, i + 70));
+    for (let i = 0; i < chunks.length; i++) await this.setKey("c_" + id + "_" + i, chunks[i]);
+    const head = JSON.stringify({ t: obj.title, c: obj.category || "", a: obj.author || "", s: obj.summary || (obj.text || "") });
+    const hChunks = []; for (let i = 0; i < head.length; i += 70) hChunks.push(head.slice(i, i + 70));
+    for (let i = 0; i < hChunks.length; i++) await this.setKey("h_" + id + "_" + i, hChunks[i]);
+    await this.setKey("m_" + id, JSON.stringify({ f: obj.featured ? 1 : 0, ts: obj.ts, nh: hChunks.length, nc: chunks.length }));
+  },
+  async create(col, obj) {
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    await this.writeItem(col, id, obj);
+    const ids = await this.regIds(col); ids.unshift(id);
+    await this.setReg(col, ids.slice(0, 15));
+    return id;
+  },
+  async update(col, id, obj) { await this.writeItem(col, id, obj); },
+  async remove(col, id) {
+    const ids = (await this.regIds(col)).filter((x) => x !== id);
+    await this.setReg(col, ids);
+  }
+};
+const CATS = ["כדורגל", "כדורסל", "טניס", "אתלטיקה", "ספורט ישראלי", "עולם"];
+
+/* ================== HELPERS ================== */
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function timeAgo(ts) {
+  const d = Math.floor(Date.now()/1000) - ts, m = Math.floor(d/60), h = Math.floor(d/3600), days = Math.floor(d/86400);
+  if (m < 1) return "עכשיו"; if (m < 60) return `לפני ${m} דקות`;
+  if (h < 24) return `לפני ${h} שעות`; if (days === 1) return "אתמול";
+  return `לפני ${days} ימים`;
+}
+const byTs = (a,b) => b.ts - a.ts;
+const uid = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+
+/* cache */
+let CACHE = { articles: null, blogs: null, ticker: null };
+async function apiList(col) {
+  const r = await fetch("/api/list?col=" + col);
+  if (!r.ok) throw new Error("list " + r.status);
+  return await r.json();
+}
+async function getBody(meta) { if (meta && typeof meta.body === "string") return meta.body; return STORE.readBody(meta); }
+async function getCol(col, fresh) {
+  if (!fresh && CACHE[col]) return CACHE[col];
+  try { CACHE[col] = await apiList(col); } catch (e) { CACHE[col] = await STORE.read(col); }
+  return CACHE[col];
+}
+
+/* ================== TICKER ================== */
+let tickerAnim = null;
+async function renderTicker() {
+  try {
+    const items = (await getCol("ticker", true)).sort(byTs);
+    const track = $("#tickerTrack");
+    if (!items.length) { track.innerHTML = "<span>אין מבזקים כרגע</span>"; return; }
+    const content = items.map(i => `<span>${esc(i.text)}</span>`).join("");
+    track.innerHTML = content + content; // duplicate for seamless loop
+    if (tickerAnim) cancelAnimationFrame(tickerAnim);
+    let x = 0;
+    const step = () => {
+      x -= 0.6;
+      const half = track.scrollWidth / 2;
+      if (-x >= half) x = 0;
+      track.style.transform = `translateX(${x}px)`;
+      tickerAnim = requestAnimationFrame(step);
+    };
+    step();
+  } catch(e) { $("#tickerTrack").innerHTML = "<span>שגיאה בטעינת מבזקים</span>"; }
+}
+setInterval(renderTicker, 20000);
+
+/* ================== VIEWS ================== */
+function cardHTML(a, kind) {
+  return `<div class="card" onclick="location.hash='#/${kind}/${a._id}'">
+    <span class="chip ${kind==='post'?'blog':''}">${kind==='post'?'בלוג':esc(a.category||'')}</span>
+    <h3>${esc(a.title)}</h3>
+    <p>${esc(a.summary)}</p>
+    <div class="card-foot"><span class="meta">${esc(a.author)} · ${timeAgo(a.ts)}</span><span class="meta">קרא עוד ←</span></div>
+  </div>`;
+}
+
+async function viewHome() {
+  const app = $("#app");
+  app.innerHTML = '<div class="loading">טוען כתבות...</div>';
+  const [arts, blogs] = await Promise.all([getCol("articles"), getCol("blogs")]);
+  const sorted = [...arts].sort(byTs);
+  const feat = sorted.find(a => a.featured) || sorted[0];
+  const rest = sorted.filter(a => a !== feat);
+  const side = rest.slice(0, 2);
+  const grid = rest.slice(2);
+  app.innerHTML = `
+    <section class="hero">
+      <div class="hero-main" onclick="location.hash='#/article/${feat._id}'">
+        <span class="chip red">מוביל עכשיו</span>
+        <h1>${esc(feat.title)}</h1>
+        <p>${esc(feat.summary)}</p>
+        <span class="meta">${esc(feat.author)} · ${timeAgo(feat.ts)}</span>
+      </div>
+      <div class="hero-side">${side.map(a => cardHTML(a, "article")).join("")}</div>
+    </section>
+    <div class="sec-head"><div class="bar"></div><h2>אחרונות</h2></div>
+    <div class="grid">${grid.length ? grid.map(a => cardHTML(a, "article")).join("") : "<p class='meta'>אין עוד כתבות כרגע.</p>"}</div>
+    <div class="sec-head"><div class="bar" style="background:#0e7490"></div><h2>מהבלוגים</h2><a href="#/blog" class="meta" style="margin-inline-start:auto;color:var(--camel);font-weight:700">לכל הבלוגים ←</a></div>
+    <div class="grid">${[...blogs].sort(byTs).slice(0,3).map(b => cardHTML(b, "post")).join("")}</div>`;
+}
+
+async function viewArticle(id) {
+  const app = $("#app");
+  app.innerHTML = '<div class="loading">טוען...</div>';
+  const arts = await getCol("articles");
+  const a = arts.find(x => x._id === id);
+  if (!a) { app.innerHTML = '<div class="err-box">הכתבה לא נמצאה</div>'; return; }
+  const related = arts.filter(x => x.category === a.category && x.id !== id).sort(byTs).slice(0,3);
+  app.innerHTML = `
+    <div class="crumb"><a href="#/">ראשי</a> ← <a href="#/category/${encodeURIComponent(a.category)}">${esc(a.category)}</a></div>
+    <article class="art">
+      <span class="chip">${esc(a.category)}</span>
+      <h1>${esc(a.title)}</h1>
+      <div class="meta">${esc(a.author)} · ${timeAgo(a.ts)} · ${new Date(a.ts*1000).toLocaleDateString("he-IL")}</div>
+      <p class="lead">${esc(a.summary)}</p>
+      <div class="body" id="artBody"><p class="meta">טוען...</p></div>
+      <a class="back" href="#/">→ חזרה לראשי</a>
+    </article>
+    ${related.length ? `<div class="sec-head"><div class="bar"></div><h2>עוד ב${esc(a.category)}</h2></div><div class="grid">${related.map(x => cardHTML(x, "article")).join("")}</div>` : ""}`;
+  const body = await getBody(a);
+  const el = $("#artBody");
+  if (el) el.innerHTML = body.split(/\n+/).filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
+}
+
+async function viewCategory(cat) {
+  const app = $("#app");
+  app.innerHTML = '<div class="loading">טוען...</div>';
+  const arts = (await getCol("articles")).filter(a => a.category === cat).sort(byTs);
+  app.innerHTML = `<div class="sec-head"><div class="bar"></div><h2>${esc(cat)}</h2></div>
+    <div class="grid">${arts.length ? arts.map(a => cardHTML(a, "article")).join("") : "<p class='meta'>אין כתבות בקטגוריה הזאת עדיין.</p>"}</div>`;
+}
+
+async function viewBlog() {
+  const app = $("#app");
+  app.innerHTML = '<div class="loading">טוען בלוגים...</div>';
+  const blogs = (await getCol("blogs")).sort(byTs);
+  app.innerHTML = `<div class="sec-head"><div class="bar" style="background:#0e7490"></div><h2>בלוגים - דעות ועמדות</h2></div>
+    <div class="grid">${blogs.length ? blogs.map(b => cardHTML(b, "post")).join("") : "<p class='meta'>אין בלוגים עדיין.</p>"}</div>`;
+}
+
+async function viewPost(id) {
+  const app = $("#app");
+  app.innerHTML = '<div class="loading">טוען...</div>';
+  const blogs = await getCol("blogs");
+  const b = blogs.find(x => x._id === id);
+  if (!b) { app.innerHTML = '<div class="err-box">הבלוג לא נמצא</div>'; return; }
+  app.innerHTML = `
+    <div class="crumb"><a href="#/">ראשי</a> ← <a href="#/blog">בלוגים</a></div>
+    <article class="art">
+      <span class="chip blog">בלוג</span>
+      <h1>${esc(b.title)}</h1>
+      <div class="meta">${esc(b.author)} · ${timeAgo(b.ts)} · ${new Date(b.ts*1000).toLocaleDateString("he-IL")}</div>
+      <p class="lead">${esc(b.summary)}</p>
+      <div class="body" id="artBody"><p class="meta">טוען...</p></div>
+      <a class="back" href="#/blog">→ חזרה לבלוגים</a>
+    </article>`;
+  const body = await getBody(b);
+  const el = $("#artBody");
+  if (el) el.innerHTML = body.split(/\n+/).filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
+}
+
+/* ================== ADMIN ================== */
+let ADMIN_TAB = "articles";
+let EDIT_BODY = "";
+async function startEdit(col, id) {
+  EDITING = id;
+  const all = await getCol(col, true);
+  const meta = all.find(x => x._id === id);
+  EDIT_BODY = await getBody(meta);
+  viewAdmin();
+}
+let EDITING = null;
+
+function isAuthed() { return sessionStorage.getItem("gamal_admin") === "1"; }
+
+function viewAdminLogin() {
+  $("#app").innerHTML = `
+    <div class="admin"><div class="panel" style="max-width:420px;margin:60px auto">
+      <h2>🔐 כניסת עורכים</h2>
+      <div id="loginMsg"></div>
+      <label>סיסמת ניהול</label>
+      <input type="password" id="pass" placeholder="הזן סיסמה" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="btn" onclick="doLogin()">כניסה</button>
+    </div></div>`;
+  setTimeout(() => $("#pass").focus(), 50);
+}
+async function doLogin() {
+  const p = $("#pass").value;
+  try {
+    const r = await fetch("/api/admin", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: p, action: "check" }) });
+    if (r.ok) { sessionStorage.setItem("gamal_admin", "1"); sessionStorage.setItem("gamal_pass", p); viewAdmin(); return; }
+    if (r.status === 401) { $("#loginMsg").innerHTML = '<div class="notice err">סיסמה שגויה</div>'; return; }
+    throw new Error("no api");
+  } catch (e) {
+    $("#loginMsg").innerHTML = '<div class="notice err">שגיאת תקשורת עם השרת - נסה שוב בעוד רגע</div>';
+  }
+}
+function logout() { sessionStorage.removeItem("gamal_admin"); location.hash = "#/"; }
+
+function catOptions(sel) {
+  return CATS.map(c => `<option ${c===sel?"selected":""}>${c}</option>`).join("");
+}
+
+async function viewAdmin() {
+  if (!isAuthed()) return viewAdminLogin();
+  const app = $("#app");
+  app.innerHTML = '<div class="loading">טוען ניהול...</div>';
+  const [arts, blogs, tick] = await Promise.all([getCol("articles", true), getCol("blogs", true), getCol("ticker", true)]);
+  const tabs = `<div class="tabs">
+    <button class="${ADMIN_TAB==='articles'?'on':''}" onclick="ADMIN_TAB='articles';EDITING=null;viewAdmin()">📰 כתבות (${arts.length})</button>
+    <button class="${ADMIN_TAB==='blogs'?'on':''}" onclick="ADMIN_TAB='blogs';EDITING=null;viewAdmin()">✍️ בלוגים (${blogs.length})</button>
+    <button class="${ADMIN_TAB==='ticker'?'on':''}" onclick="ADMIN_TAB='ticker';EDITING=null;viewAdmin()">⚡ מבזקים (${tick.length})</button>
+  </div>`;
+  let body = "";
+  if (ADMIN_TAB === "articles") body = adminArticles(arts);
+  else if (ADMIN_TAB === "blogs") body = adminBlogs(blogs);
+  else body = adminTicker(tick);
+  app.innerHTML = `<div class="admin">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
+      <h1 style="font-size:24px;font-weight:900">ניהול האתר</h1>
+      <button class="btn gray" style="margin:0" onclick="logout()">יציאה</button>
+    </div>
+    <div id="admMsg"></div>${tabs}${body}</div>`;
+}
+
+function adminArticles(arts) {
+  const e = EDITING && arts.find(a => a._id === EDITING);
+  const rows = [...arts].sort(byTs).map(a => `<tr>
+    <td><b>${esc(a.title)}</b></td><td>${esc(a.category)}</td><td>${a.featured?"⭐":""}</td><td class="meta">${timeAgo(a.ts)}</td>
+    <td class="row-actions"><button class="btn mini" onclick="startEdit('articles','${a._id}')">ערוך</button><button class="btn danger" onclick="delItem('articles','${a._id}')">מחק</button></td></tr>`).join("");
+  return `<div class="panel"><h2>${e ? "עריכת כתבה" : "כתבה חדשה"}</h2>
+    <label>כותרת</label><input type="text" id="f_title" value="${e?esc(e.title):""}">
+    <label>תקציר</label><input type="text" id="f_summary" value="${e?esc(e.summary):""}">
+    <label>קטגוריה</label><select id="f_cat">${catOptions(e?e.category:null)}</select>
+    <label>כתב/ת</label><input type="text" id="f_author" value="${e?esc(e.author):"צוות הגמל"}">
+    <label>גוף הכתבה (שורה ריקה בין פסקאות)</label><textarea id="f_body">${e?esc(EDIT_BODY):""}</textarea>
+    <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="f_feat" ${e&&e.featured?"checked":""} style="width:auto"> כתבה מובילה (Hero בעמוד הראשי)</label>
+    <button class="btn" onclick="saveArticle('${e?e._id:""}')">${e?"שמור שינויים":"פרסם כתבה"}</button>
+    ${e?`<button class="btn gray" onclick="EDITING=null;viewAdmin()">ביטול</button>`:""}
+  </div>
+  <div class="panel"><h2>כתבות קיימות</h2><table><tr><th>כותרת</th><th>קטגוריה</th><th>מובילה</th><th>פורסם</th><th></th></tr>${rows}</table></div>`;
+}
+
+function adminBlogs(blogs) {
+  const e = EDITING && blogs.find(b => b._id === EDITING);
+  const rows = [...blogs].sort(byTs).map(b => `<tr>
+    <td><b>${esc(b.title)}</b></td><td>${esc(b.author)}</td><td class="meta">${timeAgo(b.ts)}</td>
+    <td class="row-actions"><button class="btn mini" onclick="startEdit('blogs','${b._id}')">ערוך</button><button class="btn danger" onclick="delItem('blogs','${b._id}')">מחק</button></td></tr>`).join("");
+  return `<div class="panel"><h2>${e ? "עריכת בלוג" : "בלוג חדש"}</h2>
+    <label>כותרת</label><input type="text" id="f_title" value="${e?esc(b.title):""}">
+    <label>תקציר</label><input type="text" id="f_summary" value="${e?esc(b.summary):""}">
+    <label>כותב/ת</label><input type="text" id="f_author" value="${e?esc(b.author):""}">
+    <label>תוכן (שורה ריקה בין פסקאות)</label><textarea id="f_body">${e?esc(b.body):""}</textarea>
+    <button class="btn" onclick="saveBlog('${e?e._id:""}')">${e?"שמור שינויים":"פרסם בלוג"}</button>
+    ${e?`<button class="btn gray" onclick="EDITING=null;viewAdmin()">ביטול</button>`:""}
+  </div>
+  <div class="panel"><h2>בלוגים קיימים</h2><table><tr><th>כותרת</th><th>כותב/ת</th><th>פורסם</th><th></th></tr>${rows}</table></div>`;
+}
+
+function adminTicker(tick) {
+  const rows = [...tick].sort(byTs).map(t => `<tr>
+    <td>${esc(t.text)}</td><td class="meta">${timeAgo(t.ts)}</td>
+    <td><button class="btn danger" onclick="delItem('ticker','${t._id}')">מחק</button></td></tr>`).join("");
+  return `<div class="panel"><h2>מבזק חדש</h2>
+    <div class="tick-add"><input type="text" id="f_tick" placeholder="לדוגמה: רשמי: שחקן חתם בקבוצה" onkeydown="if(event.key==='Enter')addTicker()"><button class="btn" style="margin:0" onclick="addTicker()">שדר מבזק</button></div>
+    <p class="meta" style="margin-top:10px">המבזק מופיע מיד בפס האדום בראש האתר אצל כל הקוראים (מתעדכן אצלם אוטומטית תוך ~20 שניות).</p>
+  </div>
+  <div class="panel"><h2>מבזקים פעילים</h2><table><tr><th>תוכן</th><th>שודר</th><th></th></tr>${rows}</table></div>`;
+}
+
+function admMsg(txt, ok=true) { $("#admMsg").innerHTML = `<div class="notice ${ok?"ok":"err"}">${txt}</div>`; }
+
+async function apiWrite(action, col, id, payload) {
+  const r = await fetch("/api/admin", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: sessionStorage.getItem("gamal_pass"), action, col, id, payload }) });
+  if (!r.ok) throw new Error("api " + r.status);
+  return await r.json();
+}
+
+function stripMeta(o) { const { _id, body, ...rest } = o; return rest; }
+
+async function saveArticle(id) {
+  const t = $("#f_title").value.trim(), s = $("#f_summary").value.trim(), b = $("#f_body").value.trim();
+  if (!t || !b) return admMsg("כותרת וגוף הכתבה הם שדות חובה", false);
+  const feat = $("#f_feat").checked;
+  const all = await getCol("articles", true);
+  if (feat) {
+    for (const a of all.filter(x => x.featured && x._id !== id)) {
+      try { await apiWrite("update", "articles", a._id, { ...stripMeta(a), featured: false }); } catch (e) { await STORE.update("articles", a._id, { ...stripMeta(a), featured: false }); }
+    }
+  }
+  if (id) {
+    const old = all.find(x => x._id === id);
+    const payload = { ...stripMeta(old), title: t, summary: s, body: b, category: $("#f_cat").value, author: $("#f_author").value.trim() || "צוות הגמל", featured: feat };
+    try { await apiWrite("update", "articles", id, payload); } catch (e) { await STORE.update("articles", id, payload); }
+  } else {
+    const payload = { title: t, summary: s, body: b, category: $("#f_cat").value, author: $("#f_author").value.trim() || "צוות הגמל", featured: feat, ts: Math.floor(Date.now()/1000) };
+    try { await apiWrite("create", "articles", null, payload); } catch (e) { await STORE.create("articles", payload); }
+  }
+  CACHE.articles = null; EDITING = null;
+  viewAdmin().then(() => admMsg(id ? "הכתבה עודכנה ✅" : "הכתבה פורסמה ✅"));
+}
+async function saveBlog(id) {
+  const t = $("#f_title").value.trim(), b = $("#f_body").value.trim();
+  if (!t || !b) return admMsg("כותרת ותוכן הם שדות חובה", false);
+  if (id) {
+    const all = await getCol("blogs", true);
+    const old = all.find(x => x._id === id);
+    const payload = { ...stripMeta(old), title: t, summary: $("#f_summary").value.trim(), body: b, author: $("#f_author").value.trim() || "אורח" };
+    try { await apiWrite("update", "blogs", id, payload); } catch (e) { await STORE.update("blogs", id, payload); }
+  } else {
+    const payload = { title: t, summary: $("#f_summary").value.trim(), body: b, author: $("#f_author").value.trim() || "אורח", ts: Math.floor(Date.now()/1000) };
+    try { await apiWrite("create", "blogs", null, payload); } catch (e) { await STORE.create("blogs", payload); }
+  }
+  CACHE.blogs = null; EDITING = null;
+  viewAdmin().then(() => admMsg(id ? "הבלוג עודכן ✅" : "הבלוג פורסם ✅"));
+}
+async function addTicker() {
+  const v = $("#f_tick").value.trim();
+  if (!v) return;
+  try { await apiWrite("create", "ticker", null, { text: v, ts: Math.floor(Date.now()/1000) }); }
+  catch (e) { await STORE.create("ticker", { text: v, ts: Math.floor(Date.now()/1000) }); }
+  const all = (await getCol("ticker", true)).sort(byTs);
+  for (const old of all.slice(30)) { try { await apiWrite("remove", "ticker", old._id); } catch (e) { await STORE.remove("ticker", old._id); } }
+  CACHE.ticker = null;
+  renderTicker(); viewAdmin().then(() => admMsg("המבזק שודר וחי באתר ⚡"));
+}
+async function delItem(col, id) {
+  if (!confirm("למחוק? הפעולה בלתי הפיכה.")) return;
+  try { await apiWrite("remove", col, id); } catch (e) { await STORE.remove(col, id); }
+  CACHE[col] = null; EDITING = null;
+  if (col === "ticker") renderTicker();
+  viewAdmin().then(() => admMsg("נמחק"));
+}
+
+/* ================== ROUTER ================== */
+function renderNav(route) {
+  const links = [["#/","ראשי"], ...CATS.slice(0,5).map(c => ["#/category/" + encodeURIComponent(c), c]), ["#/blog","בלוגים"], ["#/admin","🔐 ניהול"]];
+  $("#nav").innerHTML = links.map(([h, t]) => `<a href="${h}" class="${h.endsWith('admin')?'admin-link':''} ${route===h?'on':''}">${t}</a>`).join("");
+}
+async function route() {
+  const h = location.hash || "#/";
+  renderNav(h);
+  const app = $("#app");
+  try {
+    if (h === "#/" || h === "#") await viewHome();
+    else if (h.startsWith("#/article/")) await viewArticle(h.split("/")[2]);
+    else if (h.startsWith("#/post/")) await viewPost(h.split("/")[2]);
+    else if (h.startsWith("#/category/")) await viewCategory(decodeURIComponent(h.split("/")[2]));
+    else if (h === "#/blog") await viewBlog();
+    else if (h === "#/admin") await viewAdmin();
+    else app.innerHTML = '<div class="err-box">העמוד לא נמצא</div>';
+  } catch (e) {
+    console.error(e);
+    app.innerHTML = '<div class="err-box">שגיאה בטעינת הנתונים. נסה לרענן בעוד רגע.</div>';
+  }
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+route();
+renderTicker();
+</script>
+</body>
+</html>
