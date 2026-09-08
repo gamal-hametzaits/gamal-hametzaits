@@ -3,695 +3,544 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>הגמל המצייץ - הפועל באר שבע בלי פילטר</title>
+<title>הגמל הצייץ | הפועל באר שבע - בלי רעש. רק מה שחשוב.</title>
+<meta name="description" content="הגמל הצייץ - מבזקים, כתבות, תוצאות וסטטיסטיקות של הפועל באר שבע. טקסט בלבד, בזמן אמת.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg0:#06080c; --bg1:#0b0e14; --card:#11151d; --card2:#161b25;
-  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
-  --amber:#ef2d3c; --amber2:#ff6b57; --amber-deep:#b91c1c;
-  --red:#e11d2e; --red-deep:#8f0f1d;
-  --teal:#22d3ee; --teal-deep:#0e7490;
-  --ink:#f4f5f7; --mut:#98a1ad; --mut2:#6b7480;
+  --bg:#0B0B0B; --bg2:#111111; --line:#1E1E1E; --line2:#2A2A2A;
+  --txt:#EDEDED; --dim:#8F8F8F; --dim2:#5C5C5C;
+  --red:#E01F2E;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'Heebo',system-ui,sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  font-family:'Heebo',sans-serif;background:var(--bg0);color:var(--ink);line-height:1.65;
-  background-image:
-    radial-gradient(900px 500px at 85% -5%, rgba(245,158,11,.14), transparent 60%),
-    radial-gradient(700px 450px at 8% 0%, rgba(34,211,238,.07), transparent 55%),
-    radial-gradient(1000px 600px at 50% 110%, rgba(239,45,60,.06), transparent 60%);
-  background-attachment:fixed;
-}
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.05;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-}
-::selection{background:var(--amber);color:#000}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1.6;overflow-x:hidden;padding-bottom:76px}
+::selection{background:var(--red);color:#fff}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
-/* ===== header ===== */
-header{
-  position:sticky;top:0;z-index:50;
-  background:rgba(6,8,12,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-}
-header::after{content:'';display:block;height:2px;background:linear-gradient(90deg,transparent,var(--amber) 30%,var(--red) 70%,transparent);opacity:.55}
-.hd{display:flex;align-items:center;gap:16px;padding:16px 20px;max-width:1180px;margin:0 auto;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:13px}
-.logo{font-size:40px;filter:drop-shadow(0 0 14px rgba(245,158,11,.5));transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
-.brand:hover .logo{transform:rotate(-8deg) scale(1.12)}
-.brand-t{display:flex;flex-direction:column}
-.wordmark{font-weight:900;font-size:27px;letter-spacing:-.5px;line-height:1.1;
-  background:linear-gradient(120deg,#fff 20%,var(--amber2) 55%,var(--amber-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
-.tagline{font-size:12px;color:var(--amber2);font-weight:600;letter-spacing:2.5px}
-nav{display:flex;gap:6px;margin-inline-start:auto;flex-wrap:wrap}
-nav a{padding:8px 15px;border-radius:99px;font-weight:600;font-size:15px;color:var(--mut);transition:.2s;border:1px solid transparent}
-nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
-nav a.on{color:#000;background:linear-gradient(120deg,var(--amber2),var(--amber-deep));font-weight:800;box-shadow:0 4px 18px rgba(245,158,11,.35)}
-nav a.admin-link{color:var(--amber2)}
-nav a.admin-link:hover{background:rgba(245,158,11,.12)}
-/* ===== ticker ===== */
-.ticker-bar{background:linear-gradient(90deg,var(--red-deep),var(--red) 45%,var(--red-deep));color:#fff;display:flex;align-items:stretch;overflow:hidden;box-shadow:0 4px 24px rgba(239,45,60,.35)}
-.ticker-label{background:rgba(0,0,0,.28);font-weight:900;padding:9px 18px;display:flex;align-items:center;gap:9px;white-space:nowrap;font-size:14px;letter-spacing:1px;z-index:2}
-.live-dot{width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,.7);animation:pulse 1.6s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)}70%{box-shadow:0 0 0 9px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
-.ticker-view{overflow:hidden;flex:1;display:flex;align-items:center}
-.ticker-track{display:flex;gap:64px;white-space:nowrap;will-change:transform;padding-inline-start:24px}
-.ticker-track span{font-size:14.5px;font-weight:600}
-.ticker-track span::before{content:'⚡';margin-inline-end:10px;font-size:12px;opacity:.85}
-/* ===== hero ===== */
-.hero{display:grid;grid-template-columns:1.65fr 1fr;gap:22px;margin:34px 0 8px}
-.hero-main{
-  background:
-    radial-gradient(600px 300px at 90% -10%, rgba(245,158,11,.22), transparent 60%),
-    radial-gradient(500px 320px at 0% 110%, rgba(239,45,60,.16), transparent 60%),
-    linear-gradient(150deg,#171d29,#0b0e14 70%);
-  color:#fff;border-radius:26px;padding:44px 40px;position:relative;overflow:hidden;cursor:pointer;
-  min-height:400px;display:flex;flex-direction:column;justify-content:flex-end;
-  border:1px solid var(--line2);
-  transition:transform .35s,box-shadow .35s;
-}
-.hero-main:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 0 1px rgba(245,158,11,.35),0 0 50px rgba(245,158,11,.12)}
-.hero-main::after{
-  content:'🐪';position:absolute;top:-46px;left:-24px;font-size:270px;opacity:.07;
-  transform:rotate(-14deg);filter:grayscale(20%);pointer-events:none;transition:transform .6s;
-}
-.hero-main:hover::after{transform:rotate(-8deg) scale(1.06)}
-.hero-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.hero-kicker{font-size:13px;color:var(--amber2);font-weight:700;letter-spacing:1.5px}
-.hero-main h1{font-family:'Frank Ruhl Libre',serif;font-size:clamp(30px,4.2vw,52px);font-weight:900;line-height:1.18;margin:8px 0 14px;letter-spacing:-.5px}
-.hero-main p{color:#c4cdd9;font-size:17.5px;max-width:620px}
-.hero-main .meta{color:#8b94a1;margin-top:16px;font-size:13.5px}
-.hero-side{display:flex;flex-direction:column;gap:18px}
-.hero-side .card{flex:1}
-/* ===== chips ===== */
-.chip{display:inline-flex;align-items:center;background:linear-gradient(120deg,var(--amber2),var(--amber-deep));color:#1a1005;font-size:12px;font-weight:800;padding:4px 14px;border-radius:99px;width:fit-content;letter-spacing:.4px;box-shadow:0 3px 12px rgba(245,158,11,.25)}
-.chip.red{background:linear-gradient(120deg,#ff5560,var(--red-deep));color:#fff;box-shadow:0 3px 12px rgba(239,45,60,.35)}
-.chip.blog{background:linear-gradient(120deg,var(--teal),var(--teal-deep));color:#04262e;box-shadow:0 3px 12px rgba(34,211,238,.25)}
-.meta{font-size:13px;color:var(--mut2)}
-/* ===== cards ===== */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px;margin:22px 0 46px}
-.card{
-  background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line);
-  border-radius:20px;padding:24px;cursor:pointer;display:flex;flex-direction:column;gap:12px;
-  transition:transform .3s,border-color .3s,box-shadow .3s;position:relative;overflow:hidden;
-}
-.card::before{content:'';position:absolute;inset-inline:0;top:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--red));opacity:0;transition:.3s}
-.card:hover{transform:translateY(-5px);border-color:rgba(245,158,11,.4);box-shadow:0 18px 44px rgba(0,0,0,.5)}
-.card:hover::before{opacity:1}
-.card h3{font-family:'Frank Ruhl Libre',serif;font-size:21px;font-weight:900;line-height:1.3}
-.card p{color:var(--mut);font-size:14.5px;flex:1}
-.card-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px}
-.card-foot .meta:last-child{color:var(--amber2);font-weight:700;transition:transform .25s}
-.card:hover .card-foot .meta:last-child{transform:translateX(-4px)}
-/* ===== section heads ===== */
-.sec-head{display:flex;align-items:baseline;gap:16px;margin:44px 0 18px}
-.sec-num{font-family:'Frank Ruhl Libre',serif;font-size:44px;font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(245,158,11,.55)}
-.sec-head h2{font-family:'Frank Ruhl Libre',serif;font-size:29px;font-weight:900;letter-spacing:-.3px}
-.sec-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(245,158,11,.5),transparent);align-self:center}
-.sec-head .bar{height:5px;width:44px;background:linear-gradient(90deg,var(--amber2),var(--amber-deep));border-radius:3px;align-self:center}
-/* ===== article page ===== */
-.crumb{font-size:13px;color:var(--mut2);margin:26px 0 0}
-.crumb a{color:var(--amber2);font-weight:700}
-.art{
-  max-width:790px;margin:26px auto;padding:52px 56px;position:relative;
-  background:linear-gradient(165deg,var(--card2),var(--card) 60%);
-  border:1px solid var(--line2);border-radius:26px;
-  box-shadow:0 30px 70px rgba(0,0,0,.45);
-}
-.art h1{font-family:'Frank Ruhl Libre',serif;font-size:clamp(27px,3.6vw,42px);font-weight:900;line-height:1.25;margin:14px 0 12px}
-.art>.meta{font-size:13.5px}
-.art .lead{
-  font-size:19px;color:#d4dae2;font-weight:500;line-height:1.75;
-  border-inline-start:4px solid var(--amber);padding-inline-start:18px;margin:24px 0 30px;
-  background:linear-gradient(90deg,rgba(245,158,11,.07),transparent);padding-block:10px;border-radius:4px;
-}
-.art .body p{margin:18px 0;font-size:17.5px;line-height:1.95;color:#dde2e9}
-.back{display:inline-flex;align-items:center;gap:6px;margin:28px 0 0;color:var(--amber2);font-weight:800;cursor:pointer;transition:transform .25s}
-.back:hover{transform:translateX(5px)}
-/* ===== admin ===== */
-.admin{max-width:920px;margin:34px auto}
-.admin h1{font-family:'Frank Ruhl Libre',serif;font-weight:900}
-.panel{background:linear-gradient(165deg,var(--card2),var(--card));border:1px solid var(--line2);border-radius:20px;padding:28px;margin-bottom:22px;box-shadow:0 14px 40px rgba(0,0,0,.35)}
-.panel h2{font-family:'Frank Ruhl Libre',serif;font-size:21px;font-weight:900;margin-bottom:16px}
-.tabs{display:flex;gap:9px;margin-bottom:22px;flex-wrap:wrap}
-.tabs button{border:1px solid var(--line2);background:var(--card);color:var(--mut);border-radius:99px;padding:10px 20px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;transition:.2s}
-.tabs button:hover{color:#fff;border-color:var(--line2)}
-.tabs button.on{background:linear-gradient(120deg,var(--amber2),var(--amber-deep));color:#1a1005;border-color:transparent;box-shadow:0 4px 16px rgba(245,158,11,.3)}
-label{display:block;font-weight:700;font-size:14px;margin:14px 0 6px;color:#c9d0da}
-input[type=text],input[type=password],select,textarea{
-  width:100%;border:1px solid var(--line2);border-radius:11px;padding:11px 14px;
-  font-family:inherit;font-size:15px;background:#0a0d12;color:var(--ink);transition:border-color .2s, box-shadow .2s;
-}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.18)}
-textarea{min-height:170px;resize:vertical}
-.btn{background:linear-gradient(120deg,var(--amber2),var(--amber-deep));color:#1a1005;border:0;border-radius:11px;padding:12px 26px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;margin-top:18px;transition:transform .2s,box-shadow .2s;box-shadow:0 6px 20px rgba(245,158,11,.25)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(245,158,11,.4)}
-.btn.gray{background:#2a3140;color:#dbe0e7;box-shadow:none}
-.btn.danger{background:linear-gradient(120deg,#ff5560,var(--red-deep));color:#fff;padding:7px 15px;margin:0;font-size:13px;box-shadow:none}
-.btn.mini{padding:7px 15px;margin:0;font-size:13px;background:#2a3140;color:#dbe0e7;box-shadow:none}
-table{width:100%;border-collapse:collapse;font-size:14.5px}
-th,td{text-align:right;padding:10px 8px;border-bottom:1px solid var(--line)}
-th{color:var(--mut2);font-weight:700;font-size:13px}
-td b{font-weight:700}
-.row-actions{display:flex;gap:6px}
-.notice{padding:13px 17px;border-radius:11px;margin:14px 0;font-weight:700;font-size:14px}
-.notice.ok{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-.notice.err{background:rgba(239,45,60,.12);color:#ff7a84;border:1px solid rgba(239,45,60,.3)}
-.tick-add{display:flex;gap:9px;margin-top:10px}
-.tick-add input{flex:1}
-/* ===== footer ===== */
-footer{margin-top:80px;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(245,158,11,.05),transparent 30%),var(--bg1);color:var(--mut);padding:44px 0;font-size:14px;position:relative;overflow:hidden}
-footer::after{content:'🐪';position:absolute;bottom:-30px;left:2%;font-size:150px;opacity:.05;transform:rotate(10deg)}
-footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;z-index:1}
-footer b{color:#fff;font-size:19px;font-family:'Frank Ruhl Libre',serif}
-.loading{text-align:center;padding:90px 0;color:var(--mut);font-size:18px}
-.err-box{text-align:center;padding:70px 20px;color:var(--red);font-weight:700}
-/* ===== reveal animation ===== */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.22,.8,.32,1)}
-.reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
-@media(max-width:860px){
-  .hero{grid-template-columns:1fr}
-  .hero-main{min-height:320px;padding:32px 26px}
-  .art{padding:30px 22px}
-  .wordmark{font-size:22px}
-  .hd{padding:12px 16px}
-}
-
-/* ===== award layer ===== */
-.scroll-progress{position:fixed;top:0;right:0;height:3px;width:0;background:linear-gradient(90deg,var(--red),var(--amber2));z-index:200;box-shadow:0 0 12px rgba(239,45,60,.6);transition:width .1s linear}
-header{transition:box-shadow .3s}
-header.scrolled{box-shadow:0 8px 30px rgba(0,0,0,.5)}
-header.scrolled .hd{padding-block:10px}
-.hd{transition:padding .3s}
-nav a{position:relative}
-nav a:not(.on)::after{content:'';position:absolute;bottom:4px;right:15px;left:15px;height:2px;background:var(--red);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
-nav a:not(.on):hover::after{transform:scaleX(1)}
-.marquee-band{
-  margin:34px -20px 6px;padding:14px 0;overflow:hidden;direction:ltr;
-  border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);
-  background:linear-gradient(90deg,rgba(239,45,60,.08),rgba(239,45,60,.02),rgba(239,45,60,.08));
-  transform:rotate(-.6deg);
-}
-.marquee-track{display:flex;gap:0;white-space:nowrap;width:max-content;animation:marq 26s linear infinite}
-.marquee-track span{
-  font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:26px;letter-spacing:1px;padding:0 26px;
-  color:transparent;-webkit-text-stroke:1px rgba(244,245,247,.35);
-}
-.marquee-track span.solid{color:var(--red);-webkit-text-stroke:0}
-@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.marquee-band:hover .marquee-track{animation-play-state:paused}
-.hero-main::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.06) 45%,transparent 60%);
-  transform:translateX(-120%);transition:transform 1.1s ease;
-}
-.hero-main:hover::before{transform:translateX(120%)}
-.hero-facts{display:flex;gap:20px;margin-top:22px;flex-wrap:wrap}
-.hero-facts div{display:flex;flex-direction:column}
-.hero-facts b{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:900;color:var(--amber2)}
-.hero-facts span{font-size:11.5px;color:var(--mut2);letter-spacing:1px}
-.grid .card:nth-child(1){transition-delay:.0s}.grid .card:nth-child(2){transition-delay:.07s}
-.grid .card:nth-child(3){transition-delay:.14s}.grid .card:nth-child(4){transition-delay:.21s}
-.grid .card:nth-child(5){transition-delay:.28s}.grid .card:nth-child(6){transition-delay:.35s}
-.grid .card:nth-child(n+7){transition-delay:.4s}
-.sec-num{font-size:58px;-webkit-text-stroke:1.5px rgba(239,45,60,.5);text-shadow:0 0 30px rgba(239,45,60,.15)}
-.sec-head{margin-top:56px}
-.art::before{content:'';position:absolute;top:0;inset-inline:0;height:5px;border-radius:26px 26px 0 0;background:linear-gradient(90deg,var(--red-deep),var(--red),var(--amber2))}
-.art{overflow:hidden}
-.art h1{text-wrap:balance}
-.foot-giant{
-  font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:clamp(64px,11vw,150px);line-height:1;
-  text-align:center;white-space:nowrap;overflow:hidden;margin:10px 0 26px;
-  color:transparent;-webkit-text-stroke:1.5px rgba(244,245,247,.10);user-select:none;
-}
-.admin .panel:first-child{box-shadow:0 0 0 1px rgba(239,45,60,.2),0 20px 60px rgba(0,0,0,.5)}
-@media(max-width:860px){.marquee-track span{font-size:20px}.sec-num{font-size:42px}}
+.mono{font-family:var(--mono)}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+#pbar{position:fixed;top:0;right:0;height:2px;background:var(--red);width:0;z-index:99;transition:width .1s linear}
+header{position:sticky;top:0;z-index:50;background:rgba(11,11,11,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{display:flex;align-items:baseline;gap:10px;font-weight:900;font-size:19px;letter-spacing:-.3px}
+.brand .dot{color:var(--red);font-size:13px}
+.brand .city{color:var(--dim);font-weight:400;font-size:14px}
+.brand .city::before{content:"|";margin-left:10px;color:var(--line2)}
+nav.top{display:flex;gap:22px;font-size:13.5px;color:var(--dim)}
+nav.top a{position:relative;padding:4px 0;transition:color .2s}
+nav.top a:hover{color:var(--txt)}
+nav.top a::after{content:"";position:absolute;bottom:0;right:0;width:0;height:1.5px;background:var(--red);transition:width .25s}
+nav.top a:hover::after{width:100%}
+nav.top a.live{color:var(--red);font-weight:700}
+.lockbtn{color:var(--dim2)!important}
+.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:.5px;margin-bottom:14px}
+.hero h1{font-size:clamp(44px,9vw,96px);font-weight:900;line-height:1.02;letter-spacing:-2px}
+.hero h1 .q{color:var(--red)}
+.latest{margin-top:44px;display:grid;grid-template-columns:110px 1fr;gap:24px;align-items:start;border-right:3px solid var(--red);padding-right:22px;cursor:pointer}
+.latest .t{font-family:var(--mono);font-size:26px;font-weight:600;color:var(--red);line-height:1.1}
+.latest .tx{font-size:clamp(19px,3vw,26px);font-weight:700;line-height:1.35}
+.latest .meta{margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--dim2)}
+section.block{padding:56px 0;border-bottom:1px solid var(--line)}
+.sec-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:34px}
+.sec-hd h2{font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:12px}
+.sec-hd .tag{font-family:var(--mono);font-size:11px;color:var(--dim2);letter-spacing:.8px}
+.pulse{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);animation:pl 1.6s infinite}
+@keyframes pl{0%,100%{box-shadow:0 0 0 0 rgba(224,31,46,.5)}55%{box-shadow:0 0 0 9px rgba(224,31,46,0)}}
+.tl{position:relative;padding-right:34px}
+.tl::before{content:"";position:absolute;right:8px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(var(--red),var(--line2))}
+.tl-item{position:relative;padding:0 0 30px 0}
+.tl-item:last-child{padding-bottom:0}
+.tl-item .dot{position:absolute;right:-31px;top:7px;width:13px;height:13px;border-radius:50%;border:2.5px solid var(--red);background:var(--bg)}
+.tl-item.hot .dot{background:var(--red)}
+.tl-item.bolt .dot{border-color:var(--txt)}
+.tl-item .tt{font-family:var(--mono);font-size:13px;color:var(--red);font-weight:600}
+.tl-item.bolt .tt{color:var(--dim)}
+.tl-item .bx{font-size:17.5px;font-weight:500;margin-top:2px;line-height:1.45}
+.tl-item .ago{font-family:var(--mono);font-size:11px;color:var(--dim2);margin-top:2px}
+.hotrow{display:grid;grid-template-columns:96px 1fr;gap:20px;padding:26px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:background .2s}
+.hotrow:first-of-type{border-top:1px solid var(--line)}
+.hotrow:hover{background:var(--bg2)}
+.hotrow .num{font-family:var(--mono);font-size:56px;font-weight:600;color:transparent;-webkit-text-stroke:1.5px var(--red);line-height:.9}
+.hotrow h3{font-size:clamp(19px,3vw,25px);font-weight:800;line-height:1.3}
+.hotrow .hm{margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--dim);display:flex;gap:16px;flex-wrap:wrap}
+.hotrow .hm .r{color:var(--red)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:0 44px}
+.tcard{padding:26px 0 30px;border-top:2px solid var(--txt);cursor:pointer;transition:transform .2s}
+.tcard:hover{transform:translateY(-2px)}
+.tcard:hover h3{color:var(--red)}
+.tcard .cat{font-family:var(--mono);font-size:11.5px;color:var(--red);letter-spacing:1px;font-weight:600}
+.tcard h3{font-size:clamp(20px,3vw,27px);font-weight:800;line-height:1.3;margin:10px 0 8px;transition:color .2s}
+.tcard p{color:var(--dim);font-size:15px;line-height:1.65}
+.tcard .dt{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--dim2)}
+@media(max-width:720px){.cards{grid-template-columns:1fr}}
+.match{padding:34px 0;border-top:2px solid var(--txt)}
+.match .round{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:1px;text-align:center}
+.score{display:flex;align-items:center;justify-content:center;gap:34px;margin:20px 0 8px;text-align:center}
+.score .team{font-size:clamp(16px,2.6vw,22px);font-weight:700;width:180px}
+.score .nums{font-family:var(--mono);font-weight:600;font-size:clamp(46px,8vw,72px);line-height:1;display:flex;align-items:center;gap:16px}
+.score .nums .h{color:var(--red)}
+.score .nums .dv{color:var(--dim2);font-size:.55em}
+.match .st{text-align:center;font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+.match .st.live{color:var(--red);font-weight:600}
+.events{max-width:420px;margin:26px auto 0;font-family:var(--mono);font-size:13.5px}
+.events .ev{display:flex;gap:14px;padding:7px 0;border-bottom:1px dashed var(--line2);color:var(--dim)}
+.events .ev:last-child{border-bottom:none}
+.events .ev .m{color:var(--red);min-width:36px;font-weight:600}
+.events .ev .x{color:var(--txt)}
+.stats{display:grid;grid-template-columns:280px 1fr;gap:44px;align-items:start}
+.rank{background:var(--bg2);border:1px solid var(--line);padding:34px;text-align:center}
+.rank .lbl{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:1px}
+.rank .big{font-family:var(--mono);font-size:110px;font-weight:600;color:var(--red);line-height:1.05;margin-top:6px}
+.srows .sr{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px}
+.srows .sr b{font-family:var(--mono);font-size:19px;font-weight:600}
+.srows .sr b.w{color:var(--red)}
+.barline{margin-top:26px;font-family:var(--mono);font-size:15px;letter-spacing:1px;color:var(--dim2);white-space:nowrap;overflow:hidden}
+.barline .f{color:var(--red)}
+.barline .pc{color:var(--txt);margin-right:12px;font-weight:600}
+@media(max-width:720px){.stats{grid-template-columns:1fr}}
+.pollq{font-size:clamp(21px,3.4vw,30px);font-weight:800;line-height:1.35;margin-bottom:26px}
+.opt{cursor:pointer;padding:16px 0;border-bottom:1px solid var(--line)}
+.opt .orow{display:flex;justify-content:space-between;align-items:baseline}
+.opt .ol{font-size:18px;font-weight:700}
+.opt .op{font-family:var(--mono);font-size:15px;color:var(--red);font-weight:600}
+.opt .barline{margin-top:8px}
+.opt:hover .ol{color:var(--red)}
+.pollvoted .opt{cursor:default}
+.polltotal{margin-top:20px;font-family:var(--mono);font-size:13px;color:var(--dim)}
+.polltotal b{color:var(--txt)}
+.brow{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.brow:hover .bt{color:var(--red)}
+.brow .bt{font-size:18px;font-weight:700;transition:color .2s}
+.brow .bm{font-family:var(--mono);font-size:12px;color:var(--dim2);white-space:nowrap}
+footer{padding:70px 0 40px;text-align:center}
+.foot-brand{font-weight:900;font-size:clamp(34px,7vw,58px);letter-spacing:-1px;color:transparent;-webkit-text-stroke:1px var(--line2)}
+.foot-brand .r{-webkit-text-stroke:1px var(--red)}
+footer .fl{font-family:var(--mono);font-size:11.5px;color:var(--dim2);margin-top:18px}
+nav.bottom{display:none;position:fixed;bottom:0;right:0;left:0;z-index:60;background:rgba(11,11,11,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);height:64px;grid-template-columns:repeat(5,1fr)}
+nav.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10.5px;color:var(--dim)}
+nav.bottom a .i{font-size:18px}
+nav.bottom a.liveb{position:relative}
+nav.bottom a.liveb .c{position:absolute;top:-20px;width:52px;height:52px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 22px rgba(224,31,46,.45);color:#fff}
+nav.bottom a.liveb span.lb{margin-top:30px;color:var(--red);font-weight:700}
+@media(max-width:720px){nav.bottom{display:grid}nav.top{display:none}.hero{padding-top:44px}}
+#sheet{position:fixed;inset:auto 0 64px 0;z-index:61;background:var(--bg2);border-top:1px solid var(--line2);padding:10px 20px 18px;display:none}
+#sheet.open{display:block}
+#sheet a{display:block;padding:13px 4px;border-bottom:1px solid var(--line);font-weight:600}
+#sheet a:last-child{border:none}
+.art{max-width:720px;margin:0 auto;padding:56px 20px}
+.art .back{font-family:var(--mono);font-size:13px;color:var(--dim);cursor:pointer}
+.art .back:hover{color:var(--red)}
+.art .cat{margin-top:30px;font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:1px;font-weight:600}
+.art h1{font-size:clamp(30px,5.6vw,52px);font-weight:900;line-height:1.14;letter-spacing:-1px;margin:14px 0 18px}
+.art .meta{font-family:var(--mono);font-size:12.5px;color:var(--dim2);padding-bottom:26px;border-bottom:1px solid var(--line)}
+.art .lede{font-size:20px;line-height:1.7;color:var(--txt);border-right:3px solid var(--red);padding-right:20px;margin:30px 0;font-weight:500}
+.art .body p{font-size:17.5px;line-height:1.9;color:#D8D8D8;margin-bottom:22px}
+.admin{max-width:780px;margin:0 auto;padding:50px 20px}
+.admin h1{font-size:30px;font-weight:900;margin-bottom:6px}
+.admin .sub{font-family:var(--mono);font-size:12px;color:var(--dim2);margin-bottom:30px}
+.atabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.atabs button{background:none;border:1px solid var(--line2);color:var(--dim);font-family:var(--sans);font-size:13.5px;padding:8px 16px;border-radius:99px;cursor:pointer}
+.atabs button.on{border-color:var(--red);color:var(--red);font-weight:700}
+.afield{margin-bottom:16px}
+.afield label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:6px;font-family:var(--mono)}
+.afield input,.afield textarea,.afield select{width:100%;background:var(--bg2);border:1px solid var(--line2);color:var(--txt);font-family:var(--sans);font-size:15px;padding:11px 13px;border-radius:6px;outline:none}
+.afield input:focus,.afield textarea:focus{border-color:var(--red)}
+.abtn{background:var(--red);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:15px;padding:12px 30px;border-radius:6px;cursor:pointer}
+.abtn:hover{filter:brightness(1.12)}
+.alist{margin-top:34px}
+.aitem{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.aitem .del{background:none;border:1px solid var(--line2);color:var(--dim);border-radius:5px;padding:5px 12px;cursor:pointer;font-family:var(--mono);font-size:12px}
+.aitem .del:hover{border-color:var(--red);color:var(--red)}
+.msg{font-family:var(--mono);font-size:13px;margin-top:14px}
+.msg.ok{color:#4ADE80}.msg.err{color:var(--red)}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
+<div id="pbar"></div>
 <header>
-  <div class="hd">
-    <a href="#/" class="brand">
-      <span class="logo">🐪</span>
-      <span class="brand-t">
-        <span class="wordmark">הגמל המצייץ</span>
-        <span class="tagline">הפועל באר שבע • בלי פילטר</span>
-      </span>
-    </a>
-    <nav id="nav"></nav>
-  </div>
-  <div class="ticker-bar">
-    <div class="ticker-label"><span class="live-dot"></span> מבזקים</div>
-    <div class="ticker-view"><div class="ticker-track" id="tickerTrack"><span>טוען מבזקים...</span></div></div>
+  <div class="wrap hd">
+    <a href="#/" class="brand"><span class="dot">●</span><span id="brandName">הגמל הצייץ</span><span class="city">באר שבע</span></a>
+    <nav class="top">
+      <a href="#live" class="live">⚡ LIVE</a>
+      <a href="#articles">כתבות</a>
+      <a href="#matches">משחקים</a>
+      <a href="#stats">סטטיסטיקות</a>
+      <a href="#/blog">בלוגים</a>
+      <a href="#/admin" class="lockbtn">🔐</a>
+    </nav>
   </div>
 </header>
-<main class="wrap" id="app"><div class="loading">טוען...</div></main>
-<footer>
-  <div class="foot-giant">הגמל המצייץ</div>
-  <div class="wrap">
-    <div><b>🐪 הגמל המצייץ</b><br>הפועל באר שבע: העברות, ניתוחים, טורי דעה ומבזקים - בלי פילטר, בלי סיבובים.</div>
-    <div>נבנה על Cloudflare Workers - מהיר, חי, ותמיד באוויר.</div>
-  </div>
-</footer>
+<main id="app"></main>
+<nav class="bottom" id="bnav">
+  <a href="#/" data-bn="home"><span class="i">⌂</span>בית</a>
+  <a href="#articles" data-bn="articles"><span class="i">📰</span>כתבות</a>
+  <a href="#live" class="liveb" data-bn="live"><span class="c">⚡</span><span class="lb">LIVE</span></a>
+  <a href="#matches" data-bn="matches"><span class="i">⚽</span>משחקים</a>
+  <a href="javascript:void(0)" id="moreBtn" data-bn="more"><span class="i">☰</span>עוד</a>
+</nav>
+<div id="sheet">
+  <a href="#stats">📊 סטטיסטיקות</a>
+  <a href="#poll">💬 קול האוהדים</a>
+  <a href="#/blog">✍️ בלוגים</a>
+  <a href="#/admin">🔐 ניהול</a>
+</div>
 <script>
+/* ================= BRAND - swap here ================= */
+const BRAND = "הגמל הצייץ";
+const TAGLINE = "הפועל באר שבע - בלי רעש. רק מה שחשוב.";
+/* ===================================================== */
+document.getElementById("brandName").textContent = BRAND;
 
-/* ================== STORE ================== */
-const STORE = {
-  base: "https://keyvalue.immanuel.co/api/KeyVal/",
-  app: "gamal-hametzaits-77x9",
-  enc(s) { return btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); },
-  dec(s) { s = String(s || "").replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; if (!s) return ""; return new TextDecoder().decode(Uint8Array.from(atob(s), (c) => c.charCodeAt(0))); },
-  async setKey(k, raw) { const r = await fetch(this.base + "UpdateValue/" + this.app + "/" + k + "/" + this.enc(raw), { method: "POST" }); if (!r.ok) throw new Error("set " + r.status); const t = await r.text(); if (t.trim() !== "true") throw new Error("set rejected"); },
-  async getKey(k) { const r = await fetch(this.base + "GetValue/" + this.app + "/" + k); if (!r.ok) throw new Error("get " + r.status); const t = await r.json(); return this.dec(t); },
-  async regIds(col) { const s = await this.getKey("reg_" + col); return s ? s.split(",").filter(Boolean) : []; },
-  async setReg(col, ids) { await this.setKey("reg_" + col, ids.join(",")); },
-  prefix(col) { return { articles: "a", blogs: "b", ticker: "t" }[col]; },
-  async read(col) {
-    const ids = await this.regIds(col);
-    const p = this.prefix(col);
-    const out = await Promise.all(ids.map(async (id) => {
-      try {
-        const m = JSON.parse(await this.getKey("m_" + id));
-        const hParts = await Promise.all(Array.from({ length: m.nh }, (_, i) => this.getKey("h_" + id + "_" + i)));
-        const h = JSON.parse(hParts.join(""));
-        return { title: h.t || "", category: h.c || "", author: h.a || "", summary: h.s || "", text: h.s || "", featured: !!m.f, ts: m.ts, nc: m.nc, _id: id };
-      } catch (e) { return null; }
-    }));
-    return out.filter(Boolean);
-  },
-  async readBody(meta) {
-    if (!meta.nc) return "";
-    const parts = await Promise.all(Array.from({ length: meta.nc }, (_, i) => this.getKey("c_" + meta._id + "_" + i).catch(() => "")));
-    return parts.join("");
-  },
-  async writeItem(col, id, obj) {
-    const body = obj.body || ""; delete obj.body;
-    const chunks = []; for (let i = 0; i < body.length; i += 70) chunks.push(body.slice(i, i + 70));
-    for (let i = 0; i < chunks.length; i++) await this.setKey("c_" + id + "_" + i, chunks[i]);
-    const head = JSON.stringify({ t: obj.title, c: obj.category || "", a: obj.author || "", s: obj.summary || (obj.text || "") });
-    const hChunks = []; for (let i = 0; i < head.length; i += 70) hChunks.push(head.slice(i, i + 70));
-    for (let i = 0; i < hChunks.length; i++) await this.setKey("h_" + id + "_" + i, hChunks[i]);
-    await this.setKey("m_" + id, JSON.stringify({ f: obj.featured ? 1 : 0, ts: obj.ts, nh: hChunks.length, nc: chunks.length }));
-  },
-  async create(col, obj) {
-    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    await this.writeItem(col, id, obj);
-    const ids = await this.regIds(col); ids.unshift(id);
-    await this.setReg(col, ids.slice(0, 15));
-    return id;
-  },
-  async update(col, id, obj) { await this.writeItem(col, id, obj); },
-  async remove(col, id) {
-    const ids = (await this.regIds(col)).filter((x) => x !== id);
-    await this.setReg(col, ids);
-  }
-};
-const CATS = ["העברות", "ניתוחים", "טורי דעה"];
-
-/* ================== HELPERS ================== */
 const $ = (s) => document.querySelector(s);
-const esc = (s) => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-function timeAgo(ts) {
-  const d = Math.floor(Date.now()/1000) - ts, m = Math.floor(d/60), h = Math.floor(d/3600), days = Math.floor(d/86400);
-  if (m < 1) return "עכשיו"; if (m < 60) return `לפני ${m} דקות`;
-  if (h < 24) return `לפני ${h} שעות`; if (days === 1) return "אתמול";
-  return `לפני ${days} ימים`;
-}
-const byTs = (a,b) => b.ts - a.ts;
-const uid = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-/* cache */
-let CACHE = { articles: null, blogs: null, ticker: null };
 async function apiList(col) {
-  const r = await fetch("/api/list?col=" + col);
-  if (!r.ok) throw new Error("list " + r.status);
-  return await r.json();
+  try { const r = await fetch("/api/list?col=" + col); return await r.json(); } catch (e) { return []; }
 }
-async function getBody(meta) { if (meta && typeof meta.body === "string") return meta.body; return STORE.readBody(meta); }
-async function getCol(col, fresh) {
-  if (!fresh && CACHE[col]) return CACHE[col];
-  try { CACHE[col] = await apiList(col); } catch (e) { CACHE[col] = await STORE.read(col); }
-  return CACHE[col];
+function fmtT(ts) { const d = new Date(ts * 1000); return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); }
+function fmtD(ts) { const d = new Date(ts * 1000); return String(d.getDate()).padStart(2, "0") + "." + String(d.getMonth() + 1).padStart(2, "0") + "." + String(d.getFullYear()).slice(2); }
+function ago(ts) {
+  const m = Math.max(0, Math.round((Date.now() / 1000 - ts) / 60));
+  if (m < 60) return "לפני " + (m <= 1 ? "דקה" : m + " דקות");
+  const h = Math.round(m / 60); if (h < 24) return "לפני " + h + " שעות";
+  return "לפני " + Math.round(h / 24) + " ימים";
+}
+function bar(pct, w) {
+  w = w || 18;
+  const f = Math.max(0, Math.min(w, Math.round((pct / 100) * w)));
+  return '<span class="f">' + "█".repeat(f) + "</span>" + "░".repeat(w - f);
+}
+function kfmt(n) { n = n || 0; return n >= 1000 ? (n / 1000).toFixed(1).replace(".0", "") + "K" : String(n); }
+
+let CACHE = { articles: [], blogs: [], ticker: [], matches: [], polls: [] };
+async function loadAll() {
+  const cols = ["articles", "blogs", "ticker", "matches", "polls"];
+  const res = await Promise.all(cols.map(apiList));
+  CACHE = { articles: res[0], blogs: res[1], ticker: res[2], matches: res[3], polls: res[4] };
 }
 
-/* ================== TICKER ================== */
-let tickerAnim = null;
-async function renderTicker() {
+function viewHome() {
+  const t = CACHE.ticker, arts = CACHE.articles;
+  const latest = t[0];
+  const hot = arts.slice().sort((x, y) => (y.views || 0) - (x.views || 0)).slice(0, 3);
+  const poll = CACHE.polls[0];
+  let h = '';
+  h += '<section class="hero"><div class="wrap">';
+  h += '<div class="kicker rv">מערכת חדשות חיה · ' + esc(TAGLINE) + '</div>';
+  h += '<h1 class="rv">מה קורה<br>עכשיו<span class="q">?</span></h1>';
+  if (latest) {
+    h += '<div class="latest rv" onclick="location.hash=\'#live\'">';
+    h += '<div class="t mono">' + fmtT(latest.ts) + '</div>';
+    h += '<div><div class="tx">' + esc(latest.text) + '</div>';
+    h += '<div class="meta">' + ago(latest.ts) + ' · מבזק אחרון</div></div></div>';
+  }
+  h += '</div></section>';
+
+  h += '<section class="block" id="live"><div class="wrap">';
+  h += '<div class="sec-hd rv"><h2><span class="pulse"></span>LIVE - מבזקים</h2><span class="tag">מתעדכן בזמן אמת</span></div>';
+  h += '<div class="tl">';
+  t.slice(0, 8).forEach(function (it, i) {
+    const cls = i === 0 ? "hot" : (i % 3 === 2 ? "bolt" : "");
+    h += '<div class="tl-item rv ' + cls + '"><span class="dot"></span>';
+    h += '<div class="tt">' + fmtT(it.ts) + '</div>';
+    h += '<div class="bx">' + esc(it.text) + '</div>';
+    h += '<div class="ago">' + ago(it.ts) + '</div></div>';
+  });
+  h += '</div></div></section>';
+
+  h += '<section class="block" id="hot"><div class="wrap">';
+  h += '<div class="sec-hd rv"><h2>🔥 הכי חם</h2><span class="tag">הכי נקרא עכשיו</span></div>';
+  hot.forEach(function (a, i) {
+    h += '<div class="hotrow rv" onclick="location.hash=\'#/article/' + a._id + '\'">';
+    h += '<div class="num">0' + (i + 1) + '</div>';
+    h += '<div><h3>' + esc(a.title) + '</h3>';
+    h += '<div class="hm"><span>💬 ' + (a.comments || 0) + ' תגובות</span><span class="r">🔥 ' + kfmt(a.views) + ' צפיות</span><span>' + ago(a.ts) + '</span></div></div></div>';
+  });
+  h += '</div></section>';
+
+  h += '<section class="block" id="articles"><div class="wrap">';
+  h += '<div class="sec-hd rv"><h2>📰 כתבות</h2><span class="tag">טקסט. בלי רעש.</span></div><div class="cards">';
+  arts.forEach(function (a) {
+    h += '<div class="tcard rv" onclick="location.hash=\'#/article/' + a._id + '\'">';
+    h += '<div class="cat">' + esc(a.category || "כתבה") + '</div>';
+    h += '<h3>' + esc(a.title) + '</h3><p>' + esc(a.summary || "") + '</p>';
+    h += '<div class="dt">' + fmtD(a.ts) + ' · ' + fmtT(a.ts) + ' · ' + esc(a.author || BRAND) + '</div></div>';
+  });
+  h += '</div></div></section>';
+  return h + viewHome2(poll);
+}
+function viewHome2(poll) {
+  let h = '';
+  h += '<section class="block" id="matches"><div class="wrap">';
+  h += '<div class="sec-hd rv"><h2>⚽ משחקים</h2><span class="tag">תוצאות ואירועים</span></div>';
+  CACHE.matches.forEach(function (m) {
+    h += '<div class="match rv"><div class="round">' + esc(m.round || "") + '</div>';
+    h += '<div class="score"><div class="team">' + esc(m.home) + '</div>';
+    h += '<div class="nums"><span class="h">' + m.hs + '</span><span class="dv">─</span><span>' + m.as + '</span></div>';
+    h += '<div class="team">' + esc(m.away) + '</div></div>';
+    h += '<div class="st ' + (m.live ? "live" : "") + '">' + esc(m.status || "") + '</div>';
+    if (m.events && m.events.length) {
+      h += '<div class="events">';
+      m.events.forEach(function (e) {
+        h += '<div class="ev"><span class="m">' + esc(e.min) + "'</span><span>" + esc(e.icon) + '</span><span class="x">' + esc(e.text) + '</span></div>';
+      });
+      h += '</div>';
+    }
+    h += '</div>';
+  });
+  h += '</div></section>';
+
+  h += '<section class="block" id="stats"><div class="wrap">';
+  h += '<div class="sec-hd rv"><h2>📊 סטטיסטיקות</h2><span class="tag">המספרים מספרים</span></div>';
+  h += '<div class="stats"><div class="rank rv"><div class="lbl">מיקום בטבלה</div><div class="big">#3</div></div>';
+  h += '<div class="srows rv">';
+  h += '<div class="sr"><span>משחקים</span><b>4</b></div>';
+  h += '<div class="sr"><span>ניצחונות</span><b class="w">3</b></div>';
+  h += '<div class="sr"><span>תיקו</span><b>0</b></div>';
+  h += '<div class="sr"><span>הפסדים</span><b>1</b></div>';
+  h += '<div class="sr"><span>שערי זכות</span><b class="w">9</b></div>';
+  h += '<div class="sr"><span>שערי חובה</span><b>4</b></div>';
+  h += '<div class="barline">' + bar(75) + '<span class="pc">75% נקודות</span></div>';
+  h += '</div></div></div></section>';
+
+  if (poll) {
+    const voted = localStorage.getItem("voted_" + poll._id);
+    h += '<section class="block" id="poll"><div class="wrap">';
+    h += '<div class="sec-hd rv"><h2>🔴 קול האוהדים</h2><span class="tag">הסקר של המערכת</span></div>';
+    h += '<div class="pollq rv">' + esc(poll.question) + '</div>';
+    h += '<div id="pollBox" class="rv ' + (voted ? "pollvoted" : "") + '">';
+    poll.opts.forEach(function (o, i) {
+      const pct = poll.total ? Math.round((o.votes / poll.total) * 100) : 0;
+      h += '<div class="opt" onclick="vote(\'' + poll._id + '\',' + i + ')">';
+      h += '<div class="orow"><span class="ol">' + esc(o.label) + '</span><span class="op">' + pct + '%</span></div>';
+      h += '<div class="barline">' + bar(pct) + '</div></div>';
+    });
+    h += '<div class="polltotal"><b>' + (poll.total || 0) + '</b> אוהדים הצביעו</div>';
+    h += '</div></div></section>';
+  }
+
+  h += '<section class="block" id="blogs"><div class="wrap">';
+  h += '<div class="sec-hd rv"><h2>✍️ בלוגי אוהדים</h2><a class="tag" href="#/blog">לכל הבלוגים ←</a></div>';
+  CACHE.blogs.slice(0, 3).forEach(function (b) {
+    h += '<div class="brow rv" onclick="location.hash=\'#/post/' + b._id + '\'">';
+    h += '<span class="bt">' + esc(b.title) + '</span>';
+    h += '<span class="bm">' + esc(b.author) + ' · ' + ago(b.ts) + '</span></div>';
+  });
+  h += '</div></section>';
+
+  h += '<footer><div class="foot-brand">' + esc(BRAND).replace("הצייץ", '<span class="r">הצייץ</span>') + '</div>';
+  h += '<div class="fl">' + esc(TAGLINE) + ' · נבנה על טקסט בלבד · Cloudflare Workers</div></footer>';
+  return h;
+}
+
+async function vote(id, idx) {
+  if (localStorage.getItem("voted_" + id)) return;
+  localStorage.setItem("voted_" + id, "1");
   try {
-    const items = (await getCol("ticker", true)).sort(byTs);
-    const track = $("#tickerTrack");
-    if (!items.length) { track.innerHTML = "<span>אין מבזקים כרגע</span>"; return; }
-    const content = items.map(i => `<span>${esc(i.text)}</span>`).join("");
-    track.innerHTML = content + content; // duplicate for seamless loop
-    if (tickerAnim) cancelAnimationFrame(tickerAnim);
-    let x = 0;
-    const step = () => {
-      x -= 0.6;
-      const half = track.scrollWidth / 2;
-      if (-x >= half) x = 0;
-      track.style.transform = `translateX(${x}px)`;
-      tickerAnim = requestAnimationFrame(step);
-    };
-    step();
-  } catch(e) { $("#tickerTrack").innerHTML = "<span>שגיאה בטעינת מבזקים</span>"; }
-}
-setInterval(renderTicker, 20000);
-
-/* ================== VIEWS ================== */
-function cardHTML(a, kind) {
-  return `<div class="card reveal" onclick="location.hash='#/${kind}/${a._id}'">
-    <span class="chip ${kind==='post'?'blog':''}">${kind==='post'?'בלוג':esc(a.category||'')}</span>
-    <h3>${esc(a.title)}</h3>
-    <p>${esc(a.summary)}</p>
-    <div class="card-foot"><span class="meta">${esc(a.author)} · ${timeAgo(a.ts)}</span><span class="meta">קרא עוד ←</span></div>
-  </div>`;
+    const r = await fetch("/api/vote", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: id, idx: idx }) });
+    const d = await r.json();
+    if (d.ok) {
+      const p = CACHE.polls.find(function (x) { return x._id === id; });
+      if (p) { p.opts = d.poll.opts; p.total = d.poll.total; }
+      renderHome();
+      setTimeout(function () { const el = document.getElementById("poll"); if (el) el.scrollIntoView(); }, 30);
+    }
+  } catch (e) {}
 }
 
-async function viewHome() {
-  const app = $("#app");
-  app.innerHTML = '<div class="loading">טוען כתבות...</div>';
-  const [arts, blogs] = await Promise.all([getCol("articles"), getCol("blogs")]);
-  const sorted = [...arts].sort(byTs);
-  const feat = sorted.find(a => a.featured) || sorted[0];
-  const rest = sorted.filter(a => a !== feat);
-  const side = rest.slice(0, 2);
-  const grid = rest.slice(2);
-  app.innerHTML = `
-    <section class="hero">
-      <div class="hero-main reveal" onclick="location.hash='#/article/${feat._id}'">
-        <div class="hero-top"><span class="chip red">מוביל עכשיו</span><span class="hero-kicker">הסיפור המרכזי של היום</span></div>
-        <h1>${esc(feat.title)}</h1>
-        <p>${esc(feat.summary)}</p>
-        <div class="hero-facts"><div><b>טרנר</b><span>הבית</span></div><div><b>2026/27</b><span>העונה</span></div><div><b>אדום</b><span>הזהות</span></div></div>
-        <span class="meta">${esc(feat.author)} · ${timeAgo(feat.ts)}</span>
-      </div>
-      <div class="hero-side">${side.map(a => cardHTML(a, "article")).join("")}</div>
-    </section>
-    <div class="marquee-band" dir="ltr"><div class="marquee-track"><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span></div></div>
-    <div class="sec-head"><span class="sec-num">01</span><h2>אחרונות</h2><div class="sec-line"></div></div>
-    <div class="grid">${grid.length ? grid.map(a => cardHTML(a, "article")).join("") : "<p class='meta'>אין עוד כתבות כרגע.</p>"}</div>
-    <div class="sec-head"><span class="sec-num">02</span><h2>מהבלוגים</h2><div class="sec-line"></div><a href="#/blog" class="meta" style="color:var(--amber2);font-weight:800">לכל הבלוגים ←</a></div>
-    <div class="grid">${[...blogs].sort(byTs).slice(0,3).map(b => cardHTML(b, "post")).join("")}</div>`;
+function renderHome() { $("#app").innerHTML = viewHome(); reveal(); }
+
+function viewArticle(id) {
+  const a = CACHE.articles.find(function (x) { return x._id === id; });
+  if (!a) { $("#app").innerHTML = '<div class="art"><p class="msg err">הכתבה לא נמצאה.</p></div>'; return; }
+  fetch("/api/view", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ col: "articles", id: id }) });
+  a.views = (a.views || 0) + 1;
+  const paras = (a.body || "").split(/\n+/).filter(Boolean).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+  $("#app").innerHTML = '<div class="art">' +
+    '<div class="back" onclick="history.back()">← חזרה</div>' +
+    '<div class="cat">' + esc(a.category || "כתבה") + '</div>' +
+    '<h1>' + esc(a.title) + '</h1>' +
+    '<div class="meta">' + fmtD(a.ts) + ' · ' + fmtT(a.ts) + ' · ' + esc(a.author || BRAND) + ' · ' + kfmt(a.views) + ' צפיות</div>' +
+    '<div class="lede">' + esc(a.summary || "") + '</div>' +
+    '<div class="body">' + paras + '</div></div>';
+  window.scrollTo(0, 0);
 }
 
-async function viewArticle(id) {
-  const app = $("#app");
-  app.innerHTML = '<div class="loading">טוען...</div>';
-  const arts = await getCol("articles");
-  const a = arts.find(x => x._id === id);
-  if (!a) { app.innerHTML = '<div class="err-box">הכתבה לא נמצאה</div>'; return; }
-  const related = arts.filter(x => x.category === a.category && x.id !== id).sort(byTs).slice(0,3);
-  app.innerHTML = `
-    <div class="crumb"><a href="#/">ראשי</a> ← <a href="#/category/${encodeURIComponent(a.category)}">${esc(a.category)}</a></div>
-    <article class="art">
-      <span class="chip">${esc(a.category)}</span>
-      <h1>${esc(a.title)}</h1>
-      <div class="meta">${esc(a.author)} · ${timeAgo(a.ts)} · ${new Date(a.ts*1000).toLocaleDateString("he-IL")}</div>
-      <p class="lead">${esc(a.summary)}</p>
-      <div class="body" id="artBody"><p class="meta">טוען...</p></div>
-      <a class="back" href="#/">→ חזרה לראשי</a>
-    </article>
-    ${related.length ? `<div class="sec-head"><div class="bar"></div><h2>עוד ב${esc(a.category)}</h2><div class="sec-line"></div></div><div class="grid">${related.map(x => cardHTML(x, "article")).join("")}</div>` : ""}`;
-  const body = await getBody(a);
-  const el = $("#artBody");
-  if (el) el.innerHTML = body.split(/\n+/).filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
+function viewBlog() {
+  let h = '<div class="art"><div class="back" onclick="location.hash=\'#/\'">← לבית</div>' +
+    '<div class="cat">✍️ בלוגי אוהדים</div><h1>הקהל כותב</h1>';
+  CACHE.blogs.forEach(function (b) {
+    h += '<div class="brow" style="padding:22px 0" onclick="location.hash=\'#/post/' + b._id + '\'">' +
+      '<span class="bt" style="font-size:21px">' + esc(b.title) + '</span>' +
+      '<span class="bm">' + esc(b.author) + ' · ' + ago(b.ts) + '</span></div>';
+  });
+  $("#app").innerHTML = h + '</div>';
+  window.scrollTo(0, 0);
 }
-
-async function viewCategory(cat) {
-  const app = $("#app");
-  app.innerHTML = '<div class="loading">טוען...</div>';
-  const arts = (await getCol("articles")).filter(a => a.category === cat).sort(byTs);
-  app.innerHTML = `<div class="sec-head"><div class="bar"></div><h2>${esc(cat)}</h2></div>
-    <div class="grid">${arts.length ? arts.map(a => cardHTML(a, "article")).join("") : "<p class='meta'>אין כתבות בקטגוריה הזאת עדיין.</p>"}</div>`;
+function viewPost(id) {
+  const b = CACHE.blogs.find(function (x) { return x._id === id; });
+  if (!b) { $("#app").innerHTML = '<div class="art"><p class="msg err">הפוסט לא נמצא.</p></div>'; return; }
+  const paras = (b.body || "").split(/\n+/).filter(Boolean).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+  $("#app").innerHTML = '<div class="art">' +
+    '<div class="back" onclick="location.hash=\'#/blog\'">← לבלוגים</div>' +
+    '<div class="cat">✍️ בלוג אוהדים</div><h1>' + esc(b.title) + '</h1>' +
+    '<div class="meta">' + fmtD(b.ts) + ' · ' + fmtT(b.ts) + ' · ' + esc(b.author) + '</div>' +
+    '<div class="body" style="margin-top:30px">' + paras + '</div></div>';
+  window.scrollTo(0, 0);
 }
-
-async function viewBlog() {
-  const app = $("#app");
-  app.innerHTML = '<div class="loading">טוען בלוגים...</div>';
-  const blogs = (await getCol("blogs")).sort(byTs);
-  app.innerHTML = `<div class="sec-head"><div class="bar" style="background:#0e7490"></div><h2>בלוגים - דעות ועמדות</h2></div>
-    <div class="grid">${blogs.length ? blogs.map(b => cardHTML(b, "post")).join("") : "<p class='meta'>אין בלוגים עדיין.</p>"}</div>`;
+/* ============ ADMIN ============ */
+const APW = function () { return sessionStorage.getItem("gamal_admin") || ""; };
+async function adminApi(body) {
+  const r = await fetch("/api/admin", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({}, body, { password: APW() })) });
+  return r.json();
 }
-
-async function viewPost(id) {
-  const app = $("#app");
-  app.innerHTML = '<div class="loading">טוען...</div>';
-  const blogs = await getCol("blogs");
-  const b = blogs.find(x => x._id === id);
-  if (!b) { app.innerHTML = '<div class="err-box">הבלוג לא נמצא</div>'; return; }
-  app.innerHTML = `
-    <div class="crumb"><a href="#/">ראשי</a> ← <a href="#/blog">בלוגים</a></div>
-    <article class="art">
-      <span class="chip blog">בלוג</span>
-      <h1>${esc(b.title)}</h1>
-      <div class="meta">${esc(b.author)} · ${timeAgo(b.ts)} · ${new Date(b.ts*1000).toLocaleDateString("he-IL")}</div>
-      <p class="lead">${esc(b.summary)}</p>
-      <div class="body" id="artBody"><p class="meta">טוען...</p></div>
-      <a class="back" href="#/blog">→ חזרה לבלוגים</a>
-    </article>`;
-  const body = await getBody(b);
-  const el = $("#artBody");
-  if (el) el.innerHTML = body.split(/\n+/).filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
-}
-
-/* ================== ADMIN ================== */
-let ADMIN_TAB = "articles";
-let EDIT_BODY = "";
-async function startEdit(col, id) {
-  EDITING = id;
-  const all = await getCol(col, true);
-  const meta = all.find(x => x._id === id);
-  EDIT_BODY = await getBody(meta);
-  viewAdmin();
-}
-let EDITING = null;
-
-function isAuthed() { return sessionStorage.getItem("gamal_admin") === "1"; }
-
-function viewAdminLogin() {
-  $("#app").innerHTML = `
-    <div class="admin"><div class="panel" style="max-width:420px;margin:60px auto">
-      <h2>🔐 כניסת עורכים</h2>
-      <div id="loginMsg"></div>
-      <label>סיסמת ניהול</label>
-      <input type="password" id="pass" placeholder="הזן סיסמה" onkeydown="if(event.key==='Enter')doLogin()">
-      <button class="btn" onclick="doLogin()">כניסה</button>
-    </div></div>`;
-  setTimeout(() => $("#pass").focus(), 50);
+let ATAB = "articles";
+function viewAdmin() {
+  if (!APW()) {
+    $("#app").innerHTML = '<div class="admin"><h1>🔐 כניסת עורכים</h1><div class="sub">ADMIN ACCESS</div>' +
+      '<div class="afield"><label>סיסמת ניהול</label><input type="password" id="apw" placeholder="הזן סיסמה"></div>' +
+      '<button class="abtn" onclick="doLogin()">כניסה</button><div class="msg" id="amsg"></div></div>';
+    return;
+  }
+  const tabs = [["articles", "כתבות"], ["ticker", "מבזקים"], ["blogs", "בלוגים"], ["matches", "משחקים"], ["polls", "סקר"]];
+  let h = '<div class="admin"><h1>ניהול האתר</h1><div class="sub">' + esc(BRAND) + ' · ADMIN · <a href="javascript:void(0)" onclick="sessionStorage.removeItem(\'gamal_admin\');route()" style="color:var(--red)">יציאה</a></div>';
+  h += '<div class="atabs">';
+  tabs.forEach(function (tb) {
+    h += '<button class="' + (ATAB === tb[0] ? "on" : "") + '" onclick="ATAB=\'' + tb[0] + '\';viewAdmin()">' + tb[1] + '</button>';
+  });
+  h += '</div><div id="aform"></div><div class="alist" id="alist"></div></div>';
+  $("#app").innerHTML = h;
+  renderAForm();
+  renderAList();
+  window.scrollTo(0, 0);
 }
 async function doLogin() {
-  const p = $("#pass").value;
-  try {
-    const r = await fetch("/api/admin", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: p, action: "check" }) });
-    if (r.ok) { sessionStorage.setItem("gamal_admin", "1"); sessionStorage.setItem("gamal_pass", p); viewAdmin(); return; }
-    if (r.status === 401) { $("#loginMsg").innerHTML = '<div class="notice err">סיסמה שגויה</div>'; return; }
-    throw new Error("no api");
-  } catch (e) {
-    $("#loginMsg").innerHTML = '<div class="notice err">שגיאת תקשורת עם השרת - נסה שוב בעוד רגע</div>';
+  const pw = $("#apw").value;
+  sessionStorage.setItem("gamal_admin", pw);
+  const d = await adminApi({ action: "check" });
+  if (d.ok) { viewAdmin(); } else { sessionStorage.removeItem("gamal_admin"); $("#amsg").textContent = "סיסמה שגויה"; $("#amsg").className = "msg err"; }
+}
+function renderAForm() {
+  let h = "";
+  if (ATAB === "articles") {
+    h = fIn("a_title", "כותרת") + fIn("a_sum", "תקציר") + fSel("a_cat", "קטגוריה", ["העברות", "ניתוחים", "טורי דעה"]) +
+      fIn("a_author", "כתב/ת") + fTa("a_body", "גוף הכתבה (שורה ריקה בין פסקאות)", 6) +
+      '<button class="abtn" onclick="aCreateArticle()">פרסם כתבה</button><div class="msg" id="amsg"></div>';
+  } else if (ATAB === "ticker") {
+    h = fIn("t_text", "טקסט המבזק") + '<button class="abtn" onclick="aCreateTicker()">שדר מבזק</button><div class="msg" id="amsg"></div>';
+  } else if (ATAB === "blogs") {
+    h = fIn("b_title", "כותרת") + fIn("b_author", "שם הכותב") + fTa("b_body", "גוף הבלוג", 6) +
+      '<button class="abtn" onclick="aCreateBlog()">פרסם בלוג</button><div class="msg" id="amsg"></div>';
+  } else if (ATAB === "matches") {
+    h = fIn("m_round", "מחזור (למשל: מחזור 4)") + fIn("m_home", "קבוצת בית") + fIn("m_away", "קבוצת חוץ") +
+      fIn("m_hs", "שערי בית") + fIn("m_as", "שערי חוץ") + fIn("m_status", "סטטוס (למשל: הסתיים · 20:15)") +
+      fTa("m_events", "אירועים - שורה לכל אירוע: דקה|אימוג׳י|טקסט (67|⚽|1-1)", 4) +
+      '<button class="abtn" onclick="aCreateMatch()">הוסף משחק</button><div class="msg" id="amsg"></div>';
+  } else if (ATAB === "polls") {
+    h = fIn("p_q", "שאלת הסקר") + fIn("p_o1", "אפשרות 1") + fIn("p_o2", "אפשרות 2") +
+      '<button class="abtn" onclick="aCreatePoll()">פרסם סקר</button><div class="msg" id="amsg"></div>';
   }
+  $("#aform").innerHTML = h;
 }
-function logout() { sessionStorage.removeItem("gamal_admin"); location.hash = "#/"; }
+function fIn(id, l) { return '<div class="afield"><label>' + l + '</label><input id="' + id + '"></div>'; }
+function fTa(id, l, r) { return '<div class="afield"><label>' + l + '</label><textarea id="' + id + '" rows="' + r + '"></textarea></div>'; }
+function fSel(id, l, opts) {
+  return '<div class="afield"><label>' + l + '</label><select id="' + id + '">' + opts.map(function (o) { return "<option>" + o + "</option>"; }).join("") + "</select></div>";
+}
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
+function aMsg(t, ok) { const m = $("#amsg"); if (m) { m.textContent = t; m.className = "msg " + (ok ? "ok" : "err"); } }
+async function afterCreate(d) {
+  if (d.ok) { aMsg("פורסם ✓", true); await loadAll(); renderAList(); } else aMsg("שגיאה: " + (d.error || ""), false);
+}
+async function aCreateArticle() {
+  const d = await adminApi({ action: "create", col: "articles", payload: { title: val("a_title"), summary: val("a_sum"), category: val("a_cat"), author: val("a_author") || BRAND, body: val("a_body"), ts: Math.floor(Date.now() / 1000), views: 0, comments: 0 } });
+  afterCreate(d);
+}
+async function aCreateTicker() {
+  const d = await adminApi({ action: "create", col: "ticker", payload: { text: val("t_text"), ts: Math.floor(Date.now() / 1000) } });
+  afterCreate(d);
+}
+async function aCreateBlog() {
+  const d = await adminApi({ action: "create", col: "blogs", payload: { title: val("b_title"), author: val("b_author"), body: val("b_body"), ts: Math.floor(Date.now() / 1000) } });
+  afterCreate(d);
+}
+async function aCreateMatch() {
+  const evs = val("m_events").split("\n").filter(Boolean).map(function (ln) {
+    const p = ln.split("|"); return { min: (p[0] || "").trim(), icon: (p[1] || "").trim(), text: (p[2] || "").trim() };
+  });
+  const d = await adminApi({ action: "create", col: "matches", payload: { round: val("m_round"), home: val("m_home"), away: val("m_away"), hs: val("m_hs"), as: val("m_as"), status: val("m_status"), events: evs, ts: Math.floor(Date.now() / 1000) } });
+  afterCreate(d);
+}
+async function aCreatePoll() {
+  const d = await adminApi({ action: "create", col: "polls", payload: { question: val("p_q"), opts: [{ label: val("p_o1"), votes: 0 }, { label: val("p_o2"), votes: 0 }], total: 0, ts: Math.floor(Date.now() / 1000) } });
+  afterCreate(d);
+}
+function renderAList() {
+  const items = CACHE[ATAB] || [];
+  let h = "";
+  items.forEach(function (it) {
+    const label = it.title || it.text || it.question || ((it.home || "") + " " + (it.hs || "") + "-" + (it.as || "") + " " + (it.away || ""));
+    h += '<div class="aitem"><span>' + esc(label) + '</span><button class="del" onclick="aDel(\'' + it._id + '\')">מחק</button></div>';
+  });
+  $("#alist").innerHTML = h || '<div class="msg">אין פריטים עדיין</div>';
+}
+async function aDel(id) {
+  const d = await adminApi({ action: "remove", col: ATAB, id: id });
+  if (d.ok) { await loadAll(); renderAList(); }
+}
+/* ============ FX + ROUTER ============ */
+function reveal() {
+  const els = document.querySelectorAll(".rv");
+  if (!("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold: 0.08 });
+  els.forEach(function (e) { io.observe(e); });
+}
+window.addEventListener("scroll", function () {
+  const onArt = location.hash.indexOf("#/article/") === 0 || location.hash.indexOf("#/post/") === 0;
+  if (!onArt) { $("#pbar").style.width = "0"; return; }
+  const d = document.documentElement;
+  const pct = d.scrollTop / (d.scrollHeight - d.clientHeight || 1) * 100;
+  $("#pbar").style.width = pct + "%";
+}, { passive: true });
+document.getElementById("moreBtn").addEventListener("click", function () {
+  document.getElementById("sheet").classList.toggle("open");
+});
+document.getElementById("sheet").addEventListener("click", function () {
+  document.getElementById("sheet").classList.remove("open");
+});
 
-function catOptions(sel) {
-  return CATS.map(c => `<option ${c===sel?"selected":""}>${c}</option>`).join("");
-}
-
-async function viewAdmin() {
-  if (!isAuthed()) return viewAdminLogin();
-  const app = $("#app");
-  app.innerHTML = '<div class="loading">טוען ניהול...</div>';
-  const [arts, blogs, tick] = await Promise.all([getCol("articles", true), getCol("blogs", true), getCol("ticker", true)]);
-  const tabs = `<div class="tabs">
-    <button class="${ADMIN_TAB==='articles'?'on':''}" onclick="ADMIN_TAB='articles';EDITING=null;viewAdmin()">📰 כתבות (${arts.length})</button>
-    <button class="${ADMIN_TAB==='blogs'?'on':''}" onclick="ADMIN_TAB='blogs';EDITING=null;viewAdmin()">✍️ בלוגים (${blogs.length})</button>
-    <button class="${ADMIN_TAB==='ticker'?'on':''}" onclick="ADMIN_TAB='ticker';EDITING=null;viewAdmin()">⚡ מבזקים (${tick.length})</button>
-  </div>`;
-  let body = "";
-  if (ADMIN_TAB === "articles") body = adminArticles(arts);
-  else if (ADMIN_TAB === "blogs") body = adminBlogs(blogs);
-  else body = adminTicker(tick);
-  app.innerHTML = `<div class="admin">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
-      <h1 style="font-size:24px;font-weight:900">ניהול האתר</h1>
-      <button class="btn gray" style="margin:0" onclick="logout()">יציאה</button>
-    </div>
-    <div id="admMsg"></div>${tabs}${body}</div>`;
-}
-
-function adminArticles(arts) {
-  const e = EDITING && arts.find(a => a._id === EDITING);
-  const rows = [...arts].sort(byTs).map(a => `<tr>
-    <td><b>${esc(a.title)}</b></td><td>${esc(a.category)}</td><td>${a.featured?"⭐":""}</td><td class="meta">${timeAgo(a.ts)}</td>
-    <td class="row-actions"><button class="btn mini" onclick="startEdit('articles','${a._id}')">ערוך</button><button class="btn danger" onclick="delItem('articles','${a._id}')">מחק</button></td></tr>`).join("");
-  return `<div class="panel"><h2>${e ? "עריכת כתבה" : "כתבה חדשה"}</h2>
-    <label>כותרת</label><input type="text" id="f_title" value="${e?esc(e.title):""}">
-    <label>תקציר</label><input type="text" id="f_summary" value="${e?esc(e.summary):""}">
-    <label>קטגוריה</label><select id="f_cat">${catOptions(e?e.category:null)}</select>
-    <label>כתב/ת</label><input type="text" id="f_author" value="${e?esc(e.author):"צוות הגמל"}">
-    <label>גוף הכתבה (שורה ריקה בין פסקאות)</label><textarea id="f_body">${e?esc(EDIT_BODY):""}</textarea>
-    <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="f_feat" ${e&&e.featured?"checked":""} style="width:auto"> כתבה מובילה (Hero בעמוד הראשי)</label>
-    <button class="btn" onclick="saveArticle('${e?e._id:""}')">${e?"שמור שינויים":"פרסם כתבה"}</button>
-    ${e?`<button class="btn gray" onclick="EDITING=null;viewAdmin()">ביטול</button>`:""}
-  </div>
-  <div class="panel"><h2>כתבות קיימות</h2><table><tr><th>כותרת</th><th>קטגוריה</th><th>מובילה</th><th>פורסם</th><th></th></tr>${rows}</table></div>`;
-}
-
-function adminBlogs(blogs) {
-  const e = EDITING && blogs.find(b => b._id === EDITING);
-  const rows = [...blogs].sort(byTs).map(b => `<tr>
-    <td><b>${esc(b.title)}</b></td><td>${esc(b.author)}</td><td class="meta">${timeAgo(b.ts)}</td>
-    <td class="row-actions"><button class="btn mini" onclick="startEdit('blogs','${b._id}')">ערוך</button><button class="btn danger" onclick="delItem('blogs','${b._id}')">מחק</button></td></tr>`).join("");
-  return `<div class="panel"><h2>${e ? "עריכת בלוג" : "בלוג חדש"}</h2>
-    <label>כותרת</label><input type="text" id="f_title" value="${e?esc(b.title):""}">
-    <label>תקציר</label><input type="text" id="f_summary" value="${e?esc(b.summary):""}">
-    <label>כותב/ת</label><input type="text" id="f_author" value="${e?esc(b.author):""}">
-    <label>תוכן (שורה ריקה בין פסקאות)</label><textarea id="f_body">${e?esc(b.body):""}</textarea>
-    <button class="btn" onclick="saveBlog('${e?e._id:""}')">${e?"שמור שינויים":"פרסם בלוג"}</button>
-    ${e?`<button class="btn gray" onclick="EDITING=null;viewAdmin()">ביטול</button>`:""}
-  </div>
-  <div class="panel"><h2>בלוגים קיימים</h2><table><tr><th>כותרת</th><th>כותב/ת</th><th>פורסם</th><th></th></tr>${rows}</table></div>`;
-}
-
-function adminTicker(tick) {
-  const rows = [...tick].sort(byTs).map(t => `<tr>
-    <td>${esc(t.text)}</td><td class="meta">${timeAgo(t.ts)}</td>
-    <td><button class="btn danger" onclick="delItem('ticker','${t._id}')">מחק</button></td></tr>`).join("");
-  return `<div class="panel"><h2>מבזק חדש</h2>
-    <div class="tick-add"><input type="text" id="f_tick" placeholder="לדוגמה: רשמי: שחקן חתם בקבוצה" onkeydown="if(event.key==='Enter')addTicker()"><button class="btn" style="margin:0" onclick="addTicker()">שדר מבזק</button></div>
-    <p class="meta" style="margin-top:10px">המבזק מופיע מיד בפס האדום בראש האתר אצל כל הקוראים (מתעדכן אצלם אוטומטית תוך ~20 שניות).</p>
-  </div>
-  <div class="panel"><h2>מבזקים פעילים</h2><table><tr><th>תוכן</th><th>שודר</th><th></th></tr>${rows}</table></div>`;
-}
-
-function admMsg(txt, ok=true) { $("#admMsg").innerHTML = `<div class="notice ${ok?"ok":"err"}">${txt}</div>`; }
-
-async function apiWrite(action, col, id, payload) {
-  const r = await fetch("/api/admin", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: sessionStorage.getItem("gamal_pass"), action, col, id, payload }) });
-  if (!r.ok) throw new Error("api " + r.status);
-  return await r.json();
-}
-
-function stripMeta(o) { const { _id, body, ...rest } = o; return rest; }
-
-async function saveArticle(id) {
-  const t = $("#f_title").value.trim(), s = $("#f_summary").value.trim(), b = $("#f_body").value.trim();
-  if (!t || !b) return admMsg("כותרת וגוף הכתבה הם שדות חובה", false);
-  const feat = $("#f_feat").checked;
-  const all = await getCol("articles", true);
-  if (feat) {
-    for (const a of all.filter(x => x.featured && x._id !== id)) {
-      try { await apiWrite("update", "articles", a._id, { ...stripMeta(a), featured: false }); } catch (e) { await STORE.update("articles", a._id, { ...stripMeta(a), featured: false }); }
-    }
-  }
-  if (id) {
-    const old = all.find(x => x._id === id);
-    const payload = { ...stripMeta(old), title: t, summary: s, body: b, category: $("#f_cat").value, author: $("#f_author").value.trim() || "צוות הגמל", featured: feat };
-    try { await apiWrite("update", "articles", id, payload); } catch (e) { await STORE.update("articles", id, payload); }
-  } else {
-    const payload = { title: t, summary: s, body: b, category: $("#f_cat").value, author: $("#f_author").value.trim() || "צוות הגמל", featured: feat, ts: Math.floor(Date.now()/1000) };
-    try { await apiWrite("create", "articles", null, payload); } catch (e) { await STORE.create("articles", payload); }
-  }
-  CACHE.articles = null; EDITING = null;
-  viewAdmin().then(() => admMsg(id ? "הכתבה עודכנה ✅" : "הכתבה פורסמה ✅"));
-}
-async function saveBlog(id) {
-  const t = $("#f_title").value.trim(), b = $("#f_body").value.trim();
-  if (!t || !b) return admMsg("כותרת ותוכן הם שדות חובה", false);
-  if (id) {
-    const all = await getCol("blogs", true);
-    const old = all.find(x => x._id === id);
-    const payload = { ...stripMeta(old), title: t, summary: $("#f_summary").value.trim(), body: b, author: $("#f_author").value.trim() || "אורח" };
-    try { await apiWrite("update", "blogs", id, payload); } catch (e) { await STORE.update("blogs", id, payload); }
-  } else {
-    const payload = { title: t, summary: $("#f_summary").value.trim(), body: b, author: $("#f_author").value.trim() || "אורח", ts: Math.floor(Date.now()/1000) };
-    try { await apiWrite("create", "blogs", null, payload); } catch (e) { await STORE.create("blogs", payload); }
-  }
-  CACHE.blogs = null; EDITING = null;
-  viewAdmin().then(() => admMsg(id ? "הבלוג עודכן ✅" : "הבלוג פורסם ✅"));
-}
-async function addTicker() {
-  const v = $("#f_tick").value.trim();
-  if (!v) return;
-  try { await apiWrite("create", "ticker", null, { text: v, ts: Math.floor(Date.now()/1000) }); }
-  catch (e) { await STORE.create("ticker", { text: v, ts: Math.floor(Date.now()/1000) }); }
-  const all = (await getCol("ticker", true)).sort(byTs);
-  for (const old of all.slice(30)) { try { await apiWrite("remove", "ticker", old._id); } catch (e) { await STORE.remove("ticker", old._id); } }
-  CACHE.ticker = null;
-  renderTicker(); viewAdmin().then(() => admMsg("המבזק שודר וחי באתר ⚡"));
-}
-async function delItem(col, id) {
-  if (!confirm("למחוק? הפעולה בלתי הפיכה.")) return;
-  try { await apiWrite("remove", col, id); } catch (e) { await STORE.remove(col, id); }
-  CACHE[col] = null; EDITING = null;
-  if (col === "ticker") renderTicker();
-  viewAdmin().then(() => admMsg("נמחק"));
-}
-
-/* ================== ROUTER ================== */
-function renderNav(route) {
-  const links = [["#/","ראשי"], ...CATS.slice(0,5).map(c => ["#/category/" + encodeURIComponent(c), c]), ["#/blog","בלוגים"], ["#/admin","🔐 ניהול"]];
-  $("#nav").innerHTML = links.map(([h, t]) => `<a href="${h}" class="${h.endsWith('admin')?'admin-link':''} ${route===h?'on':''}">${t}</a>`).join("");
-}
+let LOADED = false;
 async function route() {
   const h = location.hash || "#/";
-  renderNav(h);
-  const app = $("#app");
-  try {
-    if (h === "#/" || h === "#") await viewHome();
-    else if (h.startsWith("#/article/")) await viewArticle(h.split("/")[2]);
-    else if (h.startsWith("#/post/")) await viewPost(h.split("/")[2]);
-    else if (h.startsWith("#/category/")) await viewCategory(decodeURIComponent(h.split("/")[2]));
-    else if (h === "#/blog") await viewBlog();
-    else if (h === "#/admin") await viewAdmin();
-    else app.innerHTML = '<div class="err-box">העמוד לא נמצא</div>';
-  } catch (e) {
-    console.error(e);
-    app.innerHTML = '<div class="err-box">שגיאה בטעינת הנתונים. נסה לרענן בעוד רגע.</div>';
+  document.getElementById("sheet").classList.remove("open");
+  if (!LOADED) { await loadAll(); LOADED = true; }
+  if (h === "#/" || h === "#") renderHome();
+  else if (h.indexOf("#/article/") === 0) viewArticle(h.split("/")[2]);
+  else if (h.indexOf("#/post/") === 0) viewPost(h.split("/")[2]);
+  else if (h === "#/blog") viewBlog();
+  else if (h === "#/admin") viewAdmin();
+  else {
+    renderHome();
+    const id = h.replace("#/", "").replace("#", "");
+    setTimeout(function () { const el = document.getElementById(id); if (el) el.scrollIntoView(); }, 60);
   }
-  window.scrollTo(0, 0);
-  requestAnimationFrame(observeReveals);
-  setupProgress(h);
-}
-
-let scrollFxOn = false;
-function initScrollFx() {
-  if (scrollFxOn) return; scrollFxOn = true;
-  window.addEventListener("scroll", () => {
-    const hd = document.querySelector("header");
-    if (hd) hd.classList.toggle("scrolled", window.scrollY > 40);
-    const p = document.getElementById("readProg");
-    if (p) {
-      const d = document.documentElement;
-      const max = d.scrollHeight - innerHeight;
-      p.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
-    }
-  }, { passive: true });
-}
-function setupProgress(hash) {
-  let p = document.getElementById("readProg");
-  const onArticle = hash.startsWith("#/article/") || hash.startsWith("#/post/");
-  if (onArticle && !p) {
-    p = document.createElement("div");
-    p.id = "readProg"; p.className = "scroll-progress";
-    document.body.appendChild(p);
-  } else if (!onArticle && p) p.remove();
-  initScrollFx();
-}
-let revealObs = null;
-function observeReveals() {
-  if (!("IntersectionObserver" in window)) { document.querySelectorAll(".reveal").forEach(el => el.classList.add("in")); return; }
-  if (!revealObs) revealObs = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); revealObs.unobserve(e.target); } }), { threshold: 0.08 });
-  document.querySelectorAll(".reveal:not(.in)").forEach(el => revealObs.observe(el));
 }
 window.addEventListener("hashchange", route);
 route();
-renderTicker();
+setInterval(async function () {
+  const h = location.hash || "#/";
+  if (h === "#/" || h === "#") { await loadAll(); renderHome(); }
+}, 60000);
 </script>
 </body>
 </html>

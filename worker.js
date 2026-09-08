@@ -1,6 +1,6 @@
 /* הגמל המצייץ - Cloudflare Worker backend
    KV layout: reg_<col> = JSON array of ids (newest first, cap 15), item_<id> = full item JSON */
-const COLS = ["articles", "blogs", "ticker"];
+const COLS = ["articles", "blogs", "ticker", "matches", "polls"];
 
 function json(o, s = 200) {
   return new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" } });
@@ -26,6 +26,30 @@ export default {
       const col = url.searchParams.get("col");
       if (!COLS.includes(col)) return json({ error: "bad col" }, 400);
       return json(await readCol(env, col));
+    }
+
+    if (url.pathname === "/api/vote" && request.method === "POST") {
+      const b = await request.json().catch(() => null);
+      if (!b || !b.id || typeof b.idx !== "number") return json({ error: "bad" }, 400);
+      const s = await env.GAMAL_KV.get("item_" + b.id);
+      if (!s) return json({ error: "not found" }, 404);
+      const p = JSON.parse(s);
+      if (!Array.isArray(p.opts) || !p.opts[b.idx]) return json({ error: "bad idx" }, 400);
+      p.opts[b.idx].votes = (p.opts[b.idx].votes || 0) + 1;
+      p.total = (p.total || 0) + 1;
+      await env.GAMAL_KV.put("item_" + b.id, JSON.stringify(p));
+      return json({ ok: true, poll: p });
+    }
+
+    if (url.pathname === "/api/view" && request.method === "POST") {
+      const b = await request.json().catch(() => null);
+      if (!b || !COLS.includes(b.col) || !b.id) return json({ error: "bad" }, 400);
+      const s = await env.GAMAL_KV.get("item_" + b.id);
+      if (!s) return json({ error: "not found" }, 404);
+      const o = JSON.parse(s);
+      o.views = (o.views || 0) + 1;
+      await env.GAMAL_KV.put("item_" + b.id, JSON.stringify(o));
+      return json({ ok: true, views: o.views });
     }
 
     if (url.pathname === "/api/admin") {
