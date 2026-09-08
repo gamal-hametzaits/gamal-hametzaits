@@ -182,6 +182,56 @@ footer b{color:#fff;font-size:19px;font-family:'Frank Ruhl Libre',serif}
   .wordmark{font-size:22px}
   .hd{padding:12px 16px}
 }
+
+/* ===== award layer ===== */
+.scroll-progress{position:fixed;top:0;right:0;height:3px;width:0;background:linear-gradient(90deg,var(--red),var(--amber2));z-index:200;box-shadow:0 0 12px rgba(239,45,60,.6);transition:width .1s linear}
+header{transition:box-shadow .3s}
+header.scrolled{box-shadow:0 8px 30px rgba(0,0,0,.5)}
+header.scrolled .hd{padding-block:10px}
+.hd{transition:padding .3s}
+nav a{position:relative}
+nav a:not(.on)::after{content:'';position:absolute;bottom:4px;right:15px;left:15px;height:2px;background:var(--red);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+nav a:not(.on):hover::after{transform:scaleX(1)}
+.marquee-band{
+  margin:34px -20px 6px;padding:14px 0;overflow:hidden;direction:ltr;
+  border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);
+  background:linear-gradient(90deg,rgba(239,45,60,.08),rgba(239,45,60,.02),rgba(239,45,60,.08));
+  transform:rotate(-.6deg);
+}
+.marquee-track{display:flex;gap:0;white-space:nowrap;width:max-content;animation:marq 26s linear infinite}
+.marquee-track span{
+  font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:26px;letter-spacing:1px;padding:0 26px;
+  color:transparent;-webkit-text-stroke:1px rgba(244,245,247,.35);
+}
+.marquee-track span.solid{color:var(--red);-webkit-text-stroke:0}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-band:hover .marquee-track{animation-play-state:paused}
+.hero-main::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.06) 45%,transparent 60%);
+  transform:translateX(-120%);transition:transform 1.1s ease;
+}
+.hero-main:hover::before{transform:translateX(120%)}
+.hero-facts{display:flex;gap:20px;margin-top:22px;flex-wrap:wrap}
+.hero-facts div{display:flex;flex-direction:column}
+.hero-facts b{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:900;color:var(--amber2)}
+.hero-facts span{font-size:11.5px;color:var(--mut2);letter-spacing:1px}
+.grid .card:nth-child(1){transition-delay:.0s}.grid .card:nth-child(2){transition-delay:.07s}
+.grid .card:nth-child(3){transition-delay:.14s}.grid .card:nth-child(4){transition-delay:.21s}
+.grid .card:nth-child(5){transition-delay:.28s}.grid .card:nth-child(6){transition-delay:.35s}
+.grid .card:nth-child(n+7){transition-delay:.4s}
+.sec-num{font-size:58px;-webkit-text-stroke:1.5px rgba(239,45,60,.5);text-shadow:0 0 30px rgba(239,45,60,.15)}
+.sec-head{margin-top:56px}
+.art::before{content:'';position:absolute;top:0;inset-inline:0;height:5px;border-radius:26px 26px 0 0;background:linear-gradient(90deg,var(--red-deep),var(--red),var(--amber2))}
+.art{overflow:hidden}
+.art h1{text-wrap:balance}
+.foot-giant{
+  font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:clamp(64px,11vw,150px);line-height:1;
+  text-align:center;white-space:nowrap;overflow:hidden;margin:10px 0 26px;
+  color:transparent;-webkit-text-stroke:1.5px rgba(244,245,247,.10);user-select:none;
+}
+.admin .panel:first-child{box-shadow:0 0 0 1px rgba(239,45,60,.2),0 20px 60px rgba(0,0,0,.5)}
+@media(max-width:860px){.marquee-track span{font-size:20px}.sec-num{font-size:42px}}
 </style>
 </head>
 <body>
@@ -203,6 +253,7 @@ footer b{color:#fff;font-size:19px;font-family:'Frank Ruhl Libre',serif}
 </header>
 <main class="wrap" id="app"><div class="loading">טוען...</div></main>
 <footer>
+  <div class="foot-giant">הגמל המצייץ</div>
   <div class="wrap">
     <div><b>🐪 הגמל המצייץ</b><br>הפועל באר שבע: העברות, ניתוחים, טורי דעה ומבזקים - בלי פילטר, בלי סיבובים.</div>
     <div>נבנה על Cloudflare Workers - מהיר, חי, ותמיד באוויר.</div>
@@ -337,10 +388,12 @@ async function viewHome() {
         <div class="hero-top"><span class="chip red">מוביל עכשיו</span><span class="hero-kicker">הסיפור המרכזי של היום</span></div>
         <h1>${esc(feat.title)}</h1>
         <p>${esc(feat.summary)}</p>
+        <div class="hero-facts"><div><b>טרנר</b><span>הבית</span></div><div><b>2026/27</b><span>העונה</span></div><div><b>אדום</b><span>הזהות</span></div></div>
         <span class="meta">${esc(feat.author)} · ${timeAgo(feat.ts)}</span>
       </div>
       <div class="hero-side">${side.map(a => cardHTML(a, "article")).join("")}</div>
     </section>
+    <div class="marquee-band" dir="ltr"><div class="marquee-track"><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span><span>הפועל באר שבע</span><span class="solid">⚽</span><span>הגמל המצייץ</span><span class="solid">🐪</span><span>בלי פילטר</span><span class="solid">⚡</span></div></div>
     <div class="sec-head"><span class="sec-num">01</span><h2>אחרונות</h2><div class="sec-line"></div></div>
     <div class="grid">${grid.length ? grid.map(a => cardHTML(a, "article")).join("") : "<p class='meta'>אין עוד כתבות כרגע.</p>"}</div>
     <div class="sec-head"><span class="sec-num">02</span><h2>מהבלוגים</h2><div class="sec-line"></div><a href="#/blog" class="meta" style="color:var(--amber2);font-weight:800">לכל הבלוגים ←</a></div>
@@ -603,8 +656,33 @@ async function route() {
   }
   window.scrollTo(0, 0);
   requestAnimationFrame(observeReveals);
+  setupProgress(h);
 }
 
+let scrollFxOn = false;
+function initScrollFx() {
+  if (scrollFxOn) return; scrollFxOn = true;
+  window.addEventListener("scroll", () => {
+    const hd = document.querySelector("header");
+    if (hd) hd.classList.toggle("scrolled", window.scrollY > 40);
+    const p = document.getElementById("readProg");
+    if (p) {
+      const d = document.documentElement;
+      const max = d.scrollHeight - innerHeight;
+      p.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
+    }
+  }, { passive: true });
+}
+function setupProgress(hash) {
+  let p = document.getElementById("readProg");
+  const onArticle = hash.startsWith("#/article/") || hash.startsWith("#/post/");
+  if (onArticle && !p) {
+    p = document.createElement("div");
+    p.id = "readProg"; p.className = "scroll-progress";
+    document.body.appendChild(p);
+  } else if (!onArticle && p) p.remove();
+  initScrollFx();
+}
 let revealObs = null;
 function observeReveals() {
   if (!("IntersectionObserver" in window)) { document.querySelectorAll(".reveal").forEach(el => el.classList.add("in")); return; }
