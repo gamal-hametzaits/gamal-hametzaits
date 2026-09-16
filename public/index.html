@@ -298,17 +298,28 @@ function viewHome2(poll) {
   });
   h += '</div></section>';
 
+  const played = CACHE.matches.filter(function (m) { return Number.isFinite(Number(m.hs)) && Number.isFinite(Number(m.as)) && String(m.hs).trim() !== "" && String(m.as).trim() !== ""; });
+  const form = played.reduce(function (a, m) {
+    const home = String(m.home || "").includes("הפועל באר שבע");
+    const gf = Number(home ? m.hs : m.as), ga = Number(home ? m.as : m.hs);
+    a.gf += gf; a.ga += ga;
+    if (gf > ga) a.w++; else if (gf === ga) a.d++; else a.l++;
+    return a;
+  }, { w: 0, d: 0, l: 0, gf: 0, ga: 0 });
+  const points = form.w * 3 + form.d;
+  const pointsPct = played.length ? Math.round(points / (played.length * 3) * 100) : 0;
+  const formLabel = played.length ? form.w + "–" + form.d + "–" + form.l : "—";
   h += '<section class="block" id="stats"><div class="wrap">';
-  h += '<div class="sec-hd rv"><h2>📊 סטטיסטיקות</h2><span class="tag">המספרים מספרים</span></div>';
-  h += '<div class="stats"><div class="rank rv"><div class="lbl">מיקום בטבלה</div><div class="big">#3</div></div>';
+  h += '<div class="sec-hd rv"><h2>📊 סטטיסטיקות</h2><span class="tag">מחושב מהמשחקים באתר</span></div>';
+  h += '<div class="stats"><div class="rank rv"><div class="lbl">מאזן משחקים</div><div class="big">' + formLabel + '</div></div>';
   h += '<div class="srows rv">';
-  h += '<div class="sr"><span>משחקים</span><b>4</b></div>';
-  h += '<div class="sr"><span>ניצחונות</span><b class="w">3</b></div>';
-  h += '<div class="sr"><span>תיקו</span><b>0</b></div>';
-  h += '<div class="sr"><span>הפסדים</span><b>1</b></div>';
-  h += '<div class="sr"><span>שערי זכות</span><b class="w">9</b></div>';
-  h += '<div class="sr"><span>שערי חובה</span><b>4</b></div>';
-  h += '<div class="barline">' + bar(75) + '<span class="pc">75% נקודות</span></div>';
+  h += '<div class="sr"><span>משחקים שהסתיימו</span><b>' + played.length + '</b></div>';
+  h += '<div class="sr"><span>ניצחונות</span><b class="w">' + form.w + '</b></div>';
+  h += '<div class="sr"><span>תיקו</span><b>' + form.d + '</b></div>';
+  h += '<div class="sr"><span>הפסדים</span><b>' + form.l + '</b></div>';
+  h += '<div class="sr"><span>שערי זכות</span><b class="w">' + form.gf + '</b></div>';
+  h += '<div class="sr"><span>שערי חובה</span><b>' + form.ga + '</b></div>';
+  h += '<div class="barline">' + bar(pointsPct) + '<span class="pc">' + points + ' נק׳ · ' + pointsPct + '% מהאפשרי</span></div>';
   h += '</div></div></div></section>';
 
   if (poll) {
