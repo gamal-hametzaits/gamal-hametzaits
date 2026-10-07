@@ -548,10 +548,22 @@ async function route() {
 }
 window.addEventListener("hashchange", route);
 route();
-setInterval(async function () {
+let homeRefreshInFlight = false;
+async function refreshVisibleHome() {
   const h = location.hash || "#/";
-  if (h === "#/" || h === "#") { await loadAll(); renderHome(); }
-}, 60000);
+  if (homeRefreshInFlight || document.visibilityState !== "visible" || (h !== "#/" && h !== "#")) return;
+  homeRefreshInFlight = true;
+  try {
+    await loadAll();
+    const nowHash = location.hash || "#/";
+    // A delayed homepage request must not replace an article or an editor's form.
+    if (document.visibilityState === "visible" && (nowHash === "#/" || nowHash === "#")) renderHome();
+  } finally { homeRefreshInFlight = false; }
+}
+setInterval(refreshVisibleHome, 60000);
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "visible") refreshVisibleHome();
+});
 </script>
 </body>
 </html>
