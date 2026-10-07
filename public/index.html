@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>הגמל הצייץ | הפועל באר שבע - בלי רעש. רק מה שחשוב.</title>
-<meta name="description" content="הגמל הצייץ - מבזקים, כתבות, תוצאות וסטטיסטיקות של הפועל באר שבע. טקסט בלבד, בזמן אמת.">
+<meta name="description" content="הגמל הצייץ - מבזקים, כתבות, תוצאות וסטטיסטיקות של הפועל באר שבע. טקסט בלבד, עם תאריכי פרסום ומצב עדכניות.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -169,7 +169,7 @@ nav.bottom a.liveb span.lb{margin-top:30px;color:var(--red);font-weight:700}
   <div class="wrap hd">
     <a href="#/" class="brand"><span class="dot">●</span><span id="brandName">הגמל הצייץ</span><span class="city">באר שבע</span></a>
     <nav class="top">
-      <a href="#live" class="live">⚡ LIVE</a>
+      <a href="#live" class="live">⚡ מבזקים</a>
       <a href="#articles">כתבות</a>
       <a href="#matches">משחקים</a>
       <a href="#stats">סטטיסטיקות</a>
@@ -182,7 +182,7 @@ nav.bottom a.liveb span.lb{margin-top:30px;color:var(--red);font-weight:700}
 <nav class="bottom" id="bnav">
   <a href="#/" data-bn="home"><span class="i">⌂</span>בית</a>
   <a href="#articles" data-bn="articles"><span class="i">📰</span>כתבות</a>
-  <a href="#live" class="liveb" data-bn="live"><span class="c">⚡</span><span class="lb">LIVE</span></a>
+  <a href="#live" class="liveb" data-bn="live"><span class="c">⚡</span><span class="lb">מבזקים</span></a>
   <a href="#matches" data-bn="matches"><span class="i">⚽</span>משחקים</a>
   <a href="javascript:void(0)" id="moreBtn" data-bn="more"><span class="i">☰</span>עוד</a>
 </nav>
@@ -227,15 +227,25 @@ async function loadAll() {
   CACHE = { articles: res[0], blogs: res[1], ticker: res[2], matches: res[3], polls: res[4] };
 }
 
+// "Recent" means published within the last day, not independently verified news.
+function tickerFreshness(items, now = Date.now() / 1000) {
+  const timestamps = items.map(it => Number(it.ts)).filter(ts => Number.isFinite(ts) && ts > 0 && ts <= now + 300);
+  if (!timestamps.length) return { recent: false, latest: null, label: "אין תאריך פרסום תקין למבזקים" };
+  const latest = Math.max(...timestamps);
+  const recent = now - latest <= 86400;
+  return { recent, latest, label: recent ? "פורסם ב-24 השעות האחרונות" : "אין מבזקים חדשים ב-24 השעות האחרונות" };
+}
 function viewHome() {
   const t = CACHE.ticker, arts = CACHE.articles;
+  const fresh = tickerFreshness(t);
   const latest = t[0];
   const hot = arts.slice().sort((x, y) => (y.views || 0) - (x.views || 0)).slice(0, 3);
   const poll = CACHE.polls[0];
   let h = '';
   h += '<section class="hero"><div class="wrap">';
-  h += '<div class="kicker rv">מערכת חדשות חיה · ' + esc(TAGLINE) + '</div>';
-  h += '<h1 class="rv">מה קורה<br>עכשיו<span class="q">?</span></h1>';
+  h += '<div class="kicker rv">ארכיון ועדכוני המערכת · ' + esc(TAGLINE) + '</div>';
+  h += fresh.recent ? '<h1 class="rv">עדכוני<br>היממה<span class="q">.</span></h1>' : '<h1 class="rv">הדיווחים<br>האחרונים<span class="q">.</span></h1>';
+  h += '<p class="msg rv">' + esc(fresh.label) + (fresh.latest ? ' · הפרסום האחרון: ' + fmtD(fresh.latest) + ' ' + fmtT(fresh.latest) : '') + '. עדכניות הפרסום אינה אימות לתוכן.</p>';
   if (latest) {
     h += '<div class="latest rv" onclick="location.hash=\'#live\'">';
     h += '<div class="t mono">' + fmtT(latest.ts) + '</div>';
@@ -245,19 +255,19 @@ function viewHome() {
   h += '</div></section>';
 
   h += '<section class="block" id="live"><div class="wrap">';
-  h += '<div class="sec-hd rv"><h2><span class="pulse"></span>LIVE - מבזקים</h2><span class="tag">מתעדכן בזמן אמת</span></div>';
+  h += '<div class="sec-hd rv"><h2>' + (fresh.recent ? 'מבזקים אחרונים' : 'ארכיון מבזקים') + '</h2><span class="tag">' + esc(fresh.label) + '</span></div>';
   h += '<div class="tl">';
   t.slice(0, 8).forEach(function (it, i) {
     const cls = i === 0 ? "hot" : (i % 3 === 2 ? "bolt" : "");
     h += '<div class="tl-item rv ' + cls + '"><span class="dot"></span>';
     h += '<div class="tt">' + fmtT(it.ts) + '</div>';
     h += '<div class="bx">' + esc(it.text) + '</div>';
-    h += '<div class="ago">' + ago(it.ts) + '</div></div>';
+    h += '<div class="ago">' + fmtD(it.ts) + ' · ' + ago(it.ts) + '</div></div>';
   });
   h += '</div></div></section>';
 
   h += '<section class="block" id="hot"><div class="wrap">';
-  h += '<div class="sec-hd rv"><h2>🔥 הכי חם</h2><span class="tag">הכי נקרא עכשיו</span></div>';
+  h += '<div class="sec-hd rv"><h2>🔥 הכי חם</h2><span class="tag">לפי סך הצפיות שנשמרו</span></div>';
   hot.forEach(function (a, i) {
     h += '<div class="hotrow rv" onclick="location.hash=\'#/article/' + a._id + '\'">';
     h += '<div class="num">0' + (i + 1) + '</div>';
@@ -286,7 +296,7 @@ function viewHome2(poll) {
     h += '<div class="score"><div class="team">' + esc(m.home) + '</div>';
     h += '<div class="nums"><span class="h">' + m.hs + '</span><span class="dv">─</span><span>' + m.as + '</span></div>';
     h += '<div class="team">' + esc(m.away) + '</div></div>';
-    h += '<div class="st ' + (m.live ? "live" : "") + '">' + esc(m.status || "") + '</div>';
+    h += '<div class="st">' + (Number.isFinite(Number(m.ts)) && Number(m.ts) > 0 ? fmtD(Number(m.ts)) + ' · ' : '') + 'סטטוס שמור: ' + esc(m.status || "לא צוין") + '</div>';
     if (m.events && m.events.length) {
       h += '<div class="events">';
       m.events.forEach(function (e) {
